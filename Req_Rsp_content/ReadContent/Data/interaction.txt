@@ -1,0 +1,59 @@
+start:------------------------
+path:/www/a
+
+request:
+{
+    "a":1, "b":2
+}
+
+response:
+{
+  "rsp-a":"hahaha","rsp-b":"heehehe"
+}
+
+end:------------------------
+
+start:------------------------
+path:/www/b
+
+request:
+{
+    "c":1, "d":2
+}
+
+response:
+{
+  "rsp-a":"hahaha","rsp-b":"heehehe"
+}
+
+end:------------------------
+
+start:------------------------
+path:/www/c
+
+request:
+{
+    "e":1, "f":2
+}
+
+response:
+{
+  "rsp-a":"hahaha","rsp-b":"heehehe"
+}
+
+end:------------------------
+
+start:------------------------
+path:/www/d
+
+request:
+{
+    "g":1, "h":2
+}
+
+response:
+{
+  "rsp-a":"hahaha","rsp-b":"heehehe"
+}
+
+end:------------------------
