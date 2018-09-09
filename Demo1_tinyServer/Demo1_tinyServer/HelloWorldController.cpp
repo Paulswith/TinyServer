@@ -49,6 +49,7 @@ void HelloWorldController::service(HttpRequest &request, HttpResponse &response)
     query.bindValue(":B", QString(request.getMethod()));
     query.bindValue(":C", QString(request.getBody()));
     query.bindValue(":D", QString("json('%1')").arg(QString(jsonData.toJson())));;
+//    query.addBindValue()
     // exe
     if (!query.exec()) {
         qDebug() <<  "insert faild:" << query.lastError();
