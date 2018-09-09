@@ -7,7 +7,8 @@
 #include "HelloSqlConnectTool.h"
 
 
-QString const dbPath = "/home/dobby/Code/Cpp/Qt/Req_Rsp_content/ReadContent/Data/demo1.db";
+//QString const dbPath = "/home/dobby/Code/Cpp/Qt/Req_Rsp_content/ReadContent/Data/demo1.db";
+QString const dbPath = "/Users/dobby/Dropbox/Code/Cpp/TinyServer/Req_Rsp_content/ReadContent/Data/demo1.db";
 HelloWorldController::HelloWorldController(QObject *parent)
     :HttpRequestHandler(parent)
 {}
@@ -27,6 +28,7 @@ void HelloWorldController::service(HttpRequest &request, HttpResponse &response)
     if (parseError.error != QJsonParseError::NoError || jsonData.isNull()) {
         qDebug() << "Parse exc: " << parseError.errorString() << "\n"
                  << "data:" << request.getBody();
+        response.write(parseError.errorString().toLatin1(), true);
         return;
     }
     qDebug() << "parse suc: " << jsonData;

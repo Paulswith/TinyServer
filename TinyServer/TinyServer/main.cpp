@@ -1,5 +1,8 @@
-#include "TSMainWindow.h"
 #include <QApplication>
+#include <QDebug>
+
+#include "MainView/TSMainWindow.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -9,3 +12,5 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+
+//Other/data.db

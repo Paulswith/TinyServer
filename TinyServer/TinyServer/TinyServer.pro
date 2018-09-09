@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,10 +25,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        TSMainWindow.cpp
+    MainView/TSMainWindow.cpp \
+    PushView/TSBodyEditWidget.cpp \
+    MainView/TSConsole.cpp \
+    MainView/TSBodiesTableView.cpp \
+    Model/TSBodiesModel.cpp \
+    Tools/TSSqlConnection.cpp
 
 HEADERS += \
-        TSMainWindow.h
+    MainView/TSMainWindow.h \
+    PushView/TSBodyEditWidget.h \
+    MainView/TSConsole.h\
+    Design_Forms/TSWindowDesign.hpp \
+    MainView/TSBodiesTableView.h \
+    Model/TSBodiesModel.h \
+    Tools/TSSqlConnection.h \
+    Tools/TSConfigUtil.h
 
 FORMS += \
-        TS_design.ui
+    Design_Forms/TS_design.ui \
+    Design_Forms/TSBodyEdit_design.ui
+
+OTHER_FILES += Other/data.db
