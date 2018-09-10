@@ -6,6 +6,7 @@
 namespace GlobalStaticPro {
     // 当前已有path， 区分大小写
     extern QStringList alreadyExistPaths;
+    extern int serverPort;
 }
 
 class TSGlobalAttribute

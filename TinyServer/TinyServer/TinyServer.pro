@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui network sql
+include(framework/QtWebApp/httpserver/httpserver.pri)
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,7 +33,8 @@ SOURCES += \
     Model/TSBodiesModel.cpp \
     Tools/TSSqlConnection.cpp \
     Tools/TSHelpTools.cpp \
-    Model/TSGlobalAttribute.cpp
+    Model/TSGlobalAttribute.cpp \
+    Controllers/TSServerController.cpp
 
 HEADERS += \
     MainView/TSMainWindow.h \
@@ -44,10 +46,13 @@ HEADERS += \
     Tools/TSSqlConnection.h \
     Tools/TSConfigUtil.h \
     Tools/TSHelpTools.h \
-    Model/TSGlobalAttribute.h
+    Model/TSGlobalAttribute.h \
+    Controllers/TSServerController.h
 
 FORMS += \
     Design_Forms/TS_design.ui \
     Design_Forms/TSBodyEdit_design.ui
 
 OTHER_FILES += Other/data.db
+
+

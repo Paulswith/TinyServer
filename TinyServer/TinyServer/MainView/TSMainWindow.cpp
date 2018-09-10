@@ -4,11 +4,13 @@
 #include <QNetworkInterface>
 #include <QHostAddress>
 #include <QAbstractSocket>
+#include <QSettings>
 
 #include "TSMainWindow.h"
 #include "Tools/TSSqlConnection.h"
-
-
+#include "Tools/TSConfigUtil.h"
+#include "Controllers/TSServerController.h"
+#include "Model/TSGlobalAttribute.h"
 
 TSMainWindow::TSMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,14 +30,49 @@ TSMainWindow::TSMainWindow(QWidget *parent) :
 void TSMainWindow::showEvent(QShowEvent *event)
 {
     connect(ui->ts_startListen, &QPushButton::clicked, [&](){
-        printToConsole("请求开启服务监听！");
+        printToConsole("+请求开启服务监听！");
+        startServerListen();
     });
-// 获取当前IP
+
     connect(ui->ts_suspendListen, &QPushButton::clicked, [&](){
-        printToConsole(currentIp());
+        printToConsole("+暂停服务监听！");
+        if (serverListener != nullptr) serverListener->close();
+        ui->ts_connectionInfoLabel->setText("Non-listening");
     });
 
     event->accept();
+}
+
+void TSMainWindow::startServerListen()
+{
+    if (serverListener != nullptr) {
+        if (serverListener->isListening()) {
+            qDebug() << "server already listening";
+        }else{
+            serverListener->listen();
+            qDebug() << "server restart listening";
+        }
+    }else{
+        auto configPath  = TSConfigUtil::getConfigPath();
+        if (configPath.isEmpty()) {
+            qDebug() << "config file unfind!";
+            return;
+        }
+        QSettings *listenerSettings =
+                    new QSettings(configPath, QSettings::IniFormat);
+        listenerSettings->beginGroup("listener");
+        qDebug() << "Config loaded finished";
+
+        TSServerController *requestHandlerController = new TSServerController();
+        serverListener = new stefanfrings::HttpListener(listenerSettings, requestHandlerController, this);
+        qDebug() << "server init listening";
+
+//        // 连接控制台信号:
+//        connect(requestHandlerController, &TSServerController::signal_onnectionInfoToConsole, [&](QString infoContent){
+//            printToConsole(infoContent);
+//        });
+    }
+    ui->ts_connectionInfoLabel->setText(QString("%1:%2").arg(currentIp()).arg(GlobalStaticPro::serverPort));
 }
 
 QString TSMainWindow::currentIp()
@@ -51,7 +88,7 @@ QString TSMainWindow::currentIp()
             t_ip = ipItem.toString();
         }
     }
-    return "+"+t_ip;
+    return t_ip;
 }
 
 void TSMainWindow::printToConsole(QString str)

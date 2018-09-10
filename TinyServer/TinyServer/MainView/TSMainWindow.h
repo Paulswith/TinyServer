@@ -6,6 +6,7 @@
 #include "TSConsole.h"
 #include "PushView/TSBodyEditWidget.h"
 #include "Design_Forms/TSWindowDesign.hpp"
+#include "httplistener.h"
 
 
 class TSMainWindow : public QMainWindow
@@ -29,7 +30,10 @@ private:
     void showEvent(QShowEvent *event);
     void closeEvent(QCloseEvent *event);
 
-
+    // 当前服务器是否开启
+    bool isServerListening = false;
+    stefanfrings::HttpListener *serverListener;
+    void startServerListen();
 
 };
 

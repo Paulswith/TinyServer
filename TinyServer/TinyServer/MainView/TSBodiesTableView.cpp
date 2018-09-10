@@ -27,14 +27,10 @@ void TSBodiesTableView::reloadDataModel()
 
     // column-setting(当模型数据被修改了, title还是需要设置一遍):
     auto titleLabelInfos = titleLabels();
-    model->setHorizontalHeaderLabels(titleLabelInfos.keys()); // set-titleLabel
+    model->setHorizontalHeaderLabels(titleLabelInfos.first); // set-titleLabel
     horizontalHeader()->setStretchLastSection(true); // 设置尾巴黏贴
-    QMapIterator<QString, quint16> iter(titleLabelInfos);
-    int iter_index = 0;
-    while (iter.hasNext()) {
-        iter.next();
-        setColumnWidth(iter_index, iter.value());
-        iter_index ++;
+    for (int i=0;i < titleLabelInfos.second.count(); i++) {
+        setColumnWidth(i, titleLabelInfos.second.at(i));
     }
 }
 

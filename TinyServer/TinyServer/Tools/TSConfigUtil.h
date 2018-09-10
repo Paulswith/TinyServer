@@ -22,8 +22,7 @@ public:
 private:
     static QString queryPath(QString searchFileSuffix){
         // linux_debug
-        return QString("/home/dobby/Code/Cpp/TinyServer/TinyServer/TinyServer/Other/data.db");
-
+//        return QString("/home/dobby/Code/Cpp/TinyServer/TinyServer/TinyServer/Other/data.db");
 
         QString binPath = QCoreApplication::applicationDirPath();
         quint8 deep = 0;
@@ -40,7 +39,7 @@ private:
                 break;
             }
             deep ++;
-        }while(deep < 5);
+        }while(deep < 5);  // 往父目录最深搜索路径
 
         if (!isSearchFileExist) {
             return QString("");

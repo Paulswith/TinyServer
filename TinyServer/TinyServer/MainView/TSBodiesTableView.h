@@ -13,13 +13,10 @@ public:
 
 private:
     // 初始化标题和标题宽度
-    inline QMap<QString, quint16> titleLabels(){
-        QMap<QString, quint16> titleLabelInfos;
-        titleLabelInfos["Path"] = 100;
-        titleLabelInfos["Method"] = 100;
-        titleLabelInfos["Requests"] = 250;
-        titleLabelInfos["Response"] = 250;
-        return titleLabelInfos;
+    inline QPair<QStringList, QList<quint16>> titleLabels(){
+        QStringList titleLabels = {"Path","Method", "Requests", "Response"};
+        QList<quint16> columnWidth = {100, 100, 250, 250};
+        return qMakePair(titleLabels, columnWidth);
     }
 
     void setBaseAttribute();

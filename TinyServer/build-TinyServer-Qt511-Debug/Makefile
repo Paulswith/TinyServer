@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_CORE_LIB
+DEFINES       = -DSUPERVERBOSE -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -mmacosx-version-min=10.11 -Wall -W -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -stdlib=libc++ -g -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -mmacosx-version-min=10.11 -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I../TinyServer -I. -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -F/usr/local/Cellar/qt/5.11.1/lib
+INCPATH       = -I../TinyServer -I. -I../TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -F/usr/local/Cellar/qt/5.11.1/lib
 QMAKE         = /usr/local/Cellar/qt/5.11.1/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -50,23 +50,63 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../TinyServer/main.cpp \
+SOURCES       = ../TinyServer/framework/QtWebApp/httpserver/httpglobal.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httplistener.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpsession.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.cpp \
+		../TinyServer/main.cpp \
 		../TinyServer/MainView/TSMainWindow.cpp \
 		../TinyServer/PushView/TSBodyEditWidget.cpp \
 		../TinyServer/MainView/TSConsole.cpp \
 		../TinyServer/MainView/TSBodiesTableView.cpp \
 		../TinyServer/Model/TSBodiesModel.cpp \
-		../TinyServer/Tools/TSSqlConnection.cpp moc_TSMainWindow.cpp \
+		../TinyServer/Tools/TSSqlConnection.cpp \
+		../TinyServer/Tools/TSHelpTools.cpp \
+		../TinyServer/Model/TSGlobalAttribute.cpp \
+		../TinyServer/Controllers/TSServerController.cpp moc_httplistener.cpp \
+		moc_httpconnectionhandler.cpp \
+		moc_httpconnectionhandlerpool.cpp \
+		moc_httprequesthandler.cpp \
+		moc_httpsessionstore.cpp \
+		moc_staticfilecontroller.cpp \
+		moc_TSMainWindow.cpp \
 		moc_TSBodyEditWidget.cpp \
 		moc_TSConsole.cpp \
 		moc_TSBodiesTableView.cpp
-OBJECTS       = main.o \
+OBJECTS       = httpglobal.o \
+		httplistener.o \
+		httpconnectionhandler.o \
+		httpconnectionhandlerpool.o \
+		httprequest.o \
+		httpresponse.o \
+		httpcookie.o \
+		httprequesthandler.o \
+		httpsession.o \
+		httpsessionstore.o \
+		staticfilecontroller.o \
+		main.o \
 		TSMainWindow.o \
 		TSBodyEditWidget.o \
 		TSConsole.o \
 		TSBodiesTableView.o \
 		TSBodiesModel.o \
 		TSSqlConnection.o \
+		TSHelpTools.o \
+		TSGlobalAttribute.o \
+		TSServerController.o \
+		moc_httplistener.o \
+		moc_httpconnectionhandler.o \
+		moc_httpconnectionhandlerpool.o \
+		moc_httprequesthandler.o \
+		moc_httpsessionstore.o \
+		moc_staticfilecontroller.o \
 		moc_TSMainWindow.o \
 		moc_TSBodyEditWidget.o \
 		moc_TSConsole.o \
@@ -238,6 +278,7 @@ DIST          = /usr/local/Cellar/qt/5.11.1/mkspecs/features/spec_pre.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/mac/toolchain.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/default_pre.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/mac/default_pre.prf \
+		../TinyServer/framework/QtWebApp/httpserver/httpserver.pri \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/resolve_config.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/default_post.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/mac/default_post.prf \
@@ -259,20 +300,48 @@ DIST          = /usr/local/Cellar/qt/5.11.1/mkspecs/features/spec_pre.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/exceptions.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/yacc.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/lex.prf \
-		../TinyServer/TinyServer.pro ../TinyServer/MainView/TSMainWindow.h \
+		../TinyServer/TinyServer.pro ../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httplistener.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpsession.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.h \
+		../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.h \
+		../TinyServer/MainView/TSMainWindow.h \
 		../TinyServer/PushView/TSBodyEditWidget.h \
 		../TinyServer/MainView/TSConsole.h \
 		../TinyServer/Design_Forms/TSWindowDesign.hpp \
 		../TinyServer/MainView/TSBodiesTableView.h \
 		../TinyServer/Model/TSBodiesModel.h \
 		../TinyServer/Tools/TSSqlConnection.h \
-		../TinyServer/Tools/TSConfigUtil.h ../TinyServer/main.cpp \
+		../TinyServer/Tools/TSConfigUtil.h \
+		../TinyServer/Tools/TSHelpTools.h \
+		../TinyServer/Model/TSGlobalAttribute.h \
+		../TinyServer/Controllers/TSServerController.h ../TinyServer/framework/QtWebApp/httpserver/httpglobal.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httplistener.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpsession.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.cpp \
+		../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.cpp \
+		../TinyServer/main.cpp \
 		../TinyServer/MainView/TSMainWindow.cpp \
 		../TinyServer/PushView/TSBodyEditWidget.cpp \
 		../TinyServer/MainView/TSConsole.cpp \
 		../TinyServer/MainView/TSBodiesTableView.cpp \
 		../TinyServer/Model/TSBodiesModel.cpp \
-		../TinyServer/Tools/TSSqlConnection.cpp
+		../TinyServer/Tools/TSSqlConnection.cpp \
+		../TinyServer/Tools/TSHelpTools.cpp \
+		../TinyServer/Model/TSGlobalAttribute.cpp \
+		../TinyServer/Controllers/TSServerController.cpp
 QMAKE_TARGET  = TinyServer
 DESTDIR       = 
 TARGET        = TinyServer.app/Contents/MacOS/TinyServer
@@ -457,6 +526,7 @@ Makefile: ../TinyServer/TinyServer.pro /usr/local/Cellar/qt/5.11.1/mkspecs/macx-
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/mac/toolchain.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/default_pre.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/mac/default_pre.prf \
+		../TinyServer/framework/QtWebApp/httpserver/httpserver.pri \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/resolve_config.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/default_post.prf \
 		/usr/local/Cellar/qt/5.11.1/mkspecs/features/mac/default_post.prf \
@@ -652,6 +722,7 @@ Makefile: ../TinyServer/TinyServer.pro /usr/local/Cellar/qt/5.11.1/mkspecs/macx-
 /usr/local/Cellar/qt/5.11.1/mkspecs/features/mac/toolchain.prf:
 /usr/local/Cellar/qt/5.11.1/mkspecs/features/default_pre.prf:
 /usr/local/Cellar/qt/5.11.1/mkspecs/features/mac/default_pre.prf:
+../TinyServer/framework/QtWebApp/httpserver/httpserver.pri:
 /usr/local/Cellar/qt/5.11.1/mkspecs/features/resolve_config.prf:
 /usr/local/Cellar/qt/5.11.1/mkspecs/features/default_post.prf:
 /usr/local/Cellar/qt/5.11.1/mkspecs/features/mac/default_post.prf:
@@ -709,8 +780,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/local/Cellar/qt/5.11.1/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../TinyServer/MainView/TSMainWindow.h ../TinyServer/PushView/TSBodyEditWidget.h ../TinyServer/MainView/TSConsole.h ../TinyServer/Design_Forms/TSWindowDesign.hpp ../TinyServer/MainView/TSBodiesTableView.h ../TinyServer/Model/TSBodiesModel.h ../TinyServer/Tools/TSSqlConnection.h ../TinyServer/Tools/TSConfigUtil.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../TinyServer/main.cpp ../TinyServer/MainView/TSMainWindow.cpp ../TinyServer/PushView/TSBodyEditWidget.cpp ../TinyServer/MainView/TSConsole.cpp ../TinyServer/MainView/TSBodiesTableView.cpp ../TinyServer/Model/TSBodiesModel.cpp ../TinyServer/Tools/TSSqlConnection.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../TinyServer/framework/QtWebApp/httpserver/httpglobal.h ../TinyServer/framework/QtWebApp/httpserver/httplistener.h ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h ../TinyServer/framework/QtWebApp/httpserver/httprequest.h ../TinyServer/framework/QtWebApp/httpserver/httpresponse.h ../TinyServer/framework/QtWebApp/httpserver/httpcookie.h ../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h ../TinyServer/framework/QtWebApp/httpserver/httpsession.h ../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.h ../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.h ../TinyServer/MainView/TSMainWindow.h ../TinyServer/PushView/TSBodyEditWidget.h ../TinyServer/MainView/TSConsole.h ../TinyServer/Design_Forms/TSWindowDesign.hpp ../TinyServer/MainView/TSBodiesTableView.h ../TinyServer/Model/TSBodiesModel.h ../TinyServer/Tools/TSSqlConnection.h ../TinyServer/Tools/TSConfigUtil.h ../TinyServer/Tools/TSHelpTools.h ../TinyServer/Model/TSGlobalAttribute.h ../TinyServer/Controllers/TSServerController.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../TinyServer/framework/QtWebApp/httpserver/httpglobal.cpp ../TinyServer/framework/QtWebApp/httpserver/httplistener.cpp ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.cpp ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.cpp ../TinyServer/framework/QtWebApp/httpserver/httprequest.cpp ../TinyServer/framework/QtWebApp/httpserver/httpresponse.cpp ../TinyServer/framework/QtWebApp/httpserver/httpcookie.cpp ../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.cpp ../TinyServer/framework/QtWebApp/httpserver/httpsession.cpp ../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.cpp ../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.cpp ../TinyServer/main.cpp ../TinyServer/MainView/TSMainWindow.cpp ../TinyServer/PushView/TSBodyEditWidget.cpp ../TinyServer/MainView/TSConsole.cpp ../TinyServer/MainView/TSBodiesTableView.cpp ../TinyServer/Model/TSBodiesModel.cpp ../TinyServer/Tools/TSSqlConnection.cpp ../TinyServer/Tools/TSHelpTools.cpp ../TinyServer/Model/TSGlobalAttribute.cpp ../TinyServer/Controllers/TSServerController.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../TinyServer/Design_Forms/TS_design.ui ../TinyServer/Design_Forms/TSBodyEdit_design.ui $(DISTDIR)/
 
 
@@ -743,9 +814,241 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/local/Cellar/qt/5.11.1/mkspecs/features/data/dummy.cpp
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -g -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -mmacosx-version-min=10.11 -Wall -W -dM -E -o moc_predefs.h /usr/local/Cellar/qt/5.11.1/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_TSMainWindow.cpp moc_TSBodyEditWidget.cpp moc_TSConsole.cpp moc_TSBodiesTableView.cpp
+compiler_moc_header_make_all: moc_httplistener.cpp moc_httpconnectionhandler.cpp moc_httpconnectionhandlerpool.cpp moc_httprequesthandler.cpp moc_httpsessionstore.cpp moc_staticfilecontroller.cpp moc_TSMainWindow.cpp moc_TSBodyEditWidget.cpp moc_TSConsole.cpp moc_TSBodiesTableView.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_TSMainWindow.cpp moc_TSBodyEditWidget.cpp moc_TSConsole.cpp moc_TSBodiesTableView.cpp
+	-$(DEL_FILE) moc_httplistener.cpp moc_httpconnectionhandler.cpp moc_httpconnectionhandlerpool.cpp moc_httprequesthandler.cpp moc_httpsessionstore.cpp moc_staticfilecontroller.cpp moc_TSMainWindow.cpp moc_TSBodyEditWidget.cpp moc_TSConsole.cpp moc_TSBodiesTableView.cpp
+moc_httplistener.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpServer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpserver.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QBasicTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbasictimer.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qthread.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
+		../TinyServer/framework/QtWebApp/httpserver/httplistener.h \
+		moc_predefs.h \
+		/usr/local/Cellar/qt/5.11.1/bin/moc
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/framework/QtWebApp/httpserver/httplistener.h -o moc_httplistener.cpp
+
+moc_httpconnectionhandler.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qthread.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		moc_predefs.h \
+		/usr/local/Cellar/qt/5.11.1/bin/moc
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h -o moc_httpconnectionhandler.cpp
+
+moc_httpconnectionhandlerpool.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qthread.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h \
+		moc_predefs.h \
+		/usr/local/Cellar/qt/5.11.1/bin/moc
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h -o moc_httpconnectionhandlerpool.cpp
+
+moc_httprequesthandler.cpp: ../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		moc_predefs.h \
+		/usr/local/Cellar/qt/5.11.1/bin/moc
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h -o moc_httprequesthandler.cpp
+
+moc_httpsessionstore.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpsession.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QVariant \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qvariant.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QReadWriteLock \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qreadwritelock.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.h \
+		moc_predefs.h \
+		/usr/local/Cellar/qt/5.11.1/bin/moc
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.h -o moc_httpsessionstore.cpp
+
+moc_staticfilecontroller.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QCache \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qcache.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.h \
+		moc_predefs.h \
+		/usr/local/Cellar/qt/5.11.1/bin/moc
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.h -o moc_staticfilecontroller.cpp
+
 moc_TSMainWindow.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QMainWindow \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../TinyServer/MainView/TSConsole.h \
@@ -754,28 +1057,73 @@ moc_TSMainWindow.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Header
 		../TinyServer/PushView/TSBodyEditWidget.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QWidget \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qwidget.h \
+		ui_TSBodyEdit_design.h \
 		../TinyServer/Design_Forms/TSWindowDesign.hpp \
 		../TinyServer/MainView/TSBodiesTableView.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QTableView \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qtableview.h \
+		../TinyServer/framework/QtWebApp/httpserver/httplistener.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpServer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpserver.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QBasicTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbasictimer.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qthread.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
 		../TinyServer/MainView/TSMainWindow.h \
 		moc_predefs.h \
 		/usr/local/Cellar/qt/5.11.1/bin/moc
-	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/MainView/TSMainWindow.h -o moc_TSMainWindow.cpp
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/MainView/TSMainWindow.h -o moc_TSMainWindow.cpp
 
 moc_TSBodyEditWidget.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QWidget \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qwidget.h \
+		ui_TSBodyEdit_design.h \
 		../TinyServer/PushView/TSBodyEditWidget.h \
 		moc_predefs.h \
 		/usr/local/Cellar/qt/5.11.1/bin/moc
-	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/PushView/TSBodyEditWidget.h -o moc_TSBodyEditWidget.cpp
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/PushView/TSBodyEditWidget.h -o moc_TSBodyEditWidget.cpp
 
 moc_TSConsole.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QTextEdit \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qtextedit.h \
 		../TinyServer/MainView/TSConsole.h \
 		moc_predefs.h \
 		/usr/local/Cellar/qt/5.11.1/bin/moc
-	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/MainView/TSConsole.h -o moc_TSConsole.cpp
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/MainView/TSConsole.h -o moc_TSConsole.cpp
 
 moc_TSBodiesTableView.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QWidget \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qwidget.h \
@@ -784,7 +1132,7 @@ moc_TSBodiesTableView.cpp: /usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/H
 		../TinyServer/MainView/TSBodiesTableView.h \
 		moc_predefs.h \
 		/usr/local/Cellar/qt/5.11.1/bin/moc
-	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/MainView/TSBodiesTableView.h -o moc_TSBodiesTableView.cpp
+	/usr/local/Cellar/qt/5.11.1/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/local/Cellar/qt/5.11.1/mkspecs/macx-clang -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer -I/Users/dobby/Dropbox/Code/Cpp/TinyServer/TinyServer/TinyServer/framework/QtWebApp/httpserver -I/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers -I/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/usr/local/Cellar/qt/5.11.1/lib ../TinyServer/MainView/TSBodiesTableView.h -o moc_TSBodiesTableView.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -813,6 +1161,318 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
+httpglobal.o: ../TinyServer/framework/QtWebApp/httpserver/httpglobal.cpp ../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httpglobal.o ../TinyServer/framework/QtWebApp/httpserver/httpglobal.cpp
+
+httplistener.o: ../TinyServer/framework/QtWebApp/httpserver/httplistener.cpp ../TinyServer/framework/QtWebApp/httpserver/httplistener.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpServer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpserver.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QBasicTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbasictimer.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qthread.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QCoreApplication \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qcoreapplication.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httplistener.o ../TinyServer/framework/QtWebApp/httpserver/httplistener.cpp
+
+httpconnectionhandler.o: ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.cpp ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qthread.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httpconnectionhandler.o ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.cpp
+
+httpconnectionhandlerpool.o: ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.cpp /usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslKey \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslkey.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslCertificate \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslcertificate.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDir \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdir.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qthread.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httpconnectionhandlerpool.o ../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.cpp
+
+httprequest.o: ../TinyServer/framework/QtWebApp/httpserver/httprequest.cpp ../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDir \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdir.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httprequest.o ../TinyServer/framework/QtWebApp/httpserver/httprequest.cpp
+
+httpresponse.o: ../TinyServer/framework/QtWebApp/httpserver/httpresponse.cpp ../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httpresponse.o ../TinyServer/framework/QtWebApp/httpserver/httpresponse.cpp
+
+httpcookie.o: ../TinyServer/framework/QtWebApp/httpserver/httpcookie.cpp ../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httpcookie.o ../TinyServer/framework/QtWebApp/httpserver/httpcookie.cpp
+
+httprequesthandler.o: ../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.cpp ../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httprequesthandler.o ../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.cpp
+
+httpsession.o: ../TinyServer/framework/QtWebApp/httpserver/httpsession.cpp ../TinyServer/framework/QtWebApp/httpserver/httpsession.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QVariant \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qvariant.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QReadWriteLock \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qreadwritelock.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDateTime \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdatetime.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httpsession.o ../TinyServer/framework/QtWebApp/httpserver/httpsession.cpp
+
+httpsessionstore.o: ../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.cpp ../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpsession.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QVariant \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qvariant.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QReadWriteLock \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qreadwritelock.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDateTime \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdatetime.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o httpsessionstore.o ../TinyServer/framework/QtWebApp/httpserver/httpsessionstore.cpp
+
+staticfilecontroller.o: ../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.cpp ../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QCache \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qcache.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QFileInfo \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qfileinfo.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDir \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdir.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDateTime \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdatetime.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o staticfilecontroller.o ../TinyServer/framework/QtWebApp/httpserver/staticfilecontroller.cpp
+
 main.o: ../TinyServer/main.cpp /usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QApplication \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qapplication.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDebug \
@@ -826,10 +1486,54 @@ main.o: ../TinyServer/main.cpp /usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framewo
 		../TinyServer/PushView/TSBodyEditWidget.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QWidget \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qwidget.h \
+		ui_TSBodyEdit_design.h \
 		../TinyServer/Design_Forms/TSWindowDesign.hpp \
 		../TinyServer/MainView/TSBodiesTableView.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QTableView \
-		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qtableview.h
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qtableview.h \
+		../TinyServer/framework/QtWebApp/httpserver/httplistener.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpServer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpserver.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QBasicTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbasictimer.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qthread.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../TinyServer/main.cpp
 
 TSMainWindow.o: ../TinyServer/MainView/TSMainWindow.cpp /usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
@@ -844,6 +1548,8 @@ TSMainWindow.o: ../TinyServer/MainView/TSMainWindow.cpp /usr/local/Cellar/qt/5.1
 		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QAbstractSocket \
 		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qabstractsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
 		../TinyServer/MainView/TSMainWindow.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QMainWindow \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qmainwindow.h \
@@ -853,16 +1559,86 @@ TSMainWindow.o: ../TinyServer/MainView/TSMainWindow.cpp /usr/local/Cellar/qt/5.1
 		../TinyServer/PushView/TSBodyEditWidget.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QWidget \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qwidget.h \
+		ui_TSBodyEdit_design.h \
 		../TinyServer/Design_Forms/TSWindowDesign.hpp \
 		../TinyServer/MainView/TSBodiesTableView.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QTableView \
-		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qtableview.h
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qtableview.h \
+		../TinyServer/framework/QtWebApp/httpserver/httplistener.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpServer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpserver.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QBasicTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbasictimer.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h \
+		../TinyServer/Tools/TSSqlConnection.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QScopedPointer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qscopedpointer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QStandardItem \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qstandarditemmodel.h \
+		../TinyServer/Tools/TSConfigUtil.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QCoreApplication \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qcoreapplication.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDir \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdir.h \
+		../TinyServer/Controllers/TSServerController.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSMainWindow.o ../TinyServer/MainView/TSMainWindow.cpp
 
 TSBodyEditWidget.o: ../TinyServer/PushView/TSBodyEditWidget.cpp ../TinyServer/PushView/TSBodyEditWidget.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QWidget \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qwidget.h \
-		ui_TSBodyEdit_design.h
+		ui_TSBodyEdit_design.h \
+		../TinyServer/Tools/TSSqlConnection.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QScopedPointer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qscopedpointer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QStandardItem \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qstandarditemmodel.h \
+		../TinyServer/Tools/TSHelpTools.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/Model/TSGlobalAttribute.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QStringList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstringlist.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDebug \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdebug.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QShowEvent \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QJsonParseError \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qjsondocument.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QJsonDocument \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QMessageBox \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qmessagebox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSBodyEditWidget.o ../TinyServer/PushView/TSBodyEditWidget.cpp
 
 TSConsole.o: ../TinyServer/MainView/TSConsole.cpp ../TinyServer/MainView/TSConsole.h \
@@ -886,9 +1662,13 @@ TSBodiesTableView.o: ../TinyServer/MainView/TSBodiesTableView.cpp /usr/local/Cel
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qscrollbar.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers/QSqlQuery \
 		/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers/qsqlquery.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QMessageBox \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qmessagebox.h \
 		../TinyServer/Tools/TSSqlConnection.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QScopedPointer \
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qscopedpointer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QStandardItem \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qstandarditemmodel.h \
 		../TinyServer/MainView/TSBodiesTableView.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QWidget \
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qwidget.h \
@@ -896,18 +1676,31 @@ TSBodiesTableView.o: ../TinyServer/MainView/TSBodiesTableView.cpp /usr/local/Cel
 		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qtableview.h \
 		../TinyServer/Model/TSBodiesModel.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QStandardItemModel \
-		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qstandarditemmodel.h
+		../TinyServer/PushView/TSBodyEditWidget.h \
+		ui_TSBodyEdit_design.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSBodiesTableView.o ../TinyServer/MainView/TSBodiesTableView.cpp
 
-TSBodiesModel.o: ../TinyServer/Model/TSBodiesModel.cpp ../TinyServer/Model/TSBodiesModel.h \
-		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QStandardItemModel \
+TSBodiesModel.o: ../TinyServer/Model/TSBodiesModel.cpp /usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QStandardItem \
 		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qstandarditemmodel.h \
-		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QStandardItem
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDebug \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdebug.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers/QSqlQuery \
+		/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers/qsqlquery.h \
+		../TinyServer/Model/TSBodiesModel.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QStandardItemModel \
+		../TinyServer/Tools/TSSqlConnection.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QScopedPointer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qscopedpointer.h \
+		../TinyServer/Model/TSGlobalAttribute.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QStringList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstringlist.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSBodiesModel.o ../TinyServer/Model/TSBodiesModel.cpp
 
 TSSqlConnection.o: ../TinyServer/Tools/TSSqlConnection.cpp ../TinyServer/Tools/TSSqlConnection.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QScopedPointer \
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qscopedpointer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QStandardItem \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qstandarditemmodel.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDebug \
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdebug.h \
 		../TinyServer/Tools/TSConfigUtil.h \
@@ -918,8 +1711,110 @@ TSSqlConnection.o: ../TinyServer/Tools/TSSqlConnection.cpp ../TinyServer/Tools/T
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDir \
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdir.h \
 		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
-		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/Tools/TSHelpTools.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers/QSqlQuery \
+		/usr/local/Cellar/qt/5.11.1/lib/QtSql.framework/Headers/qsqlquery.h \
+		../TinyServer/Model/TSGlobalAttribute.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QStringList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstringlist.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSSqlConnection.o ../TinyServer/Tools/TSSqlConnection.cpp
+
+TSHelpTools.o: ../TinyServer/Tools/TSHelpTools.cpp ../TinyServer/Tools/TSHelpTools.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QJsonDocument \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qjsondocument.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QJsonParseError \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QDebug \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qdebug.h \
+		../TinyServer/Model/TSGlobalAttribute.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QStringList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstringlist.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSHelpTools.o ../TinyServer/Tools/TSHelpTools.cpp
+
+TSGlobalAttribute.o: ../TinyServer/Model/TSGlobalAttribute.cpp ../TinyServer/Model/TSGlobalAttribute.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QStringList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstringlist.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSGlobalAttribute.o ../TinyServer/Model/TSGlobalAttribute.cpp
+
+TSServerController.o: ../TinyServer/Controllers/TSServerController.cpp ../TinyServer/Controllers/TSServerController.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequesthandler.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpglobal.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QtGlobal \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qglobal.h \
+		../TinyServer/framework/QtWebApp/httpserver/httprequest.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QByteArray \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbytearray.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QHostAddress \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpSocket \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmap.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMultiMap \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QSettings \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qsettings.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTemporaryFile \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtemporaryfile.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QUuid \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/quuid.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpresponse.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qstring.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpcookie.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/QList \
+		/usr/local/Cellar/qt/5.11.1/lib/QtGui.framework/Headers/qevent.h \
+		../TinyServer/MainView/TSMainWindow.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QMainWindow \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		../TinyServer/MainView/TSConsole.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QTextEdit \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qtextedit.h \
+		../TinyServer/PushView/TSBodyEditWidget.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QWidget \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qwidget.h \
+		ui_TSBodyEdit_design.h \
+		../TinyServer/Design_Forms/TSWindowDesign.hpp \
+		../TinyServer/MainView/TSBodiesTableView.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/QTableView \
+		/usr/local/Cellar/qt/5.11.1/lib/QtWidgets.framework/Headers/qtableview.h \
+		../TinyServer/framework/QtWebApp/httpserver/httplistener.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QTcpServer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qtcpserver.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QBasicTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qbasictimer.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandler.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/QSslConfiguration \
+		/usr/local/Cellar/qt/5.11.1/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QThread \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qthread.h \
+		../TinyServer/framework/QtWebApp/httpserver/httpconnectionhandlerpool.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qobject.h \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/QMutex \
+		/usr/local/Cellar/qt/5.11.1/lib/QtCore.framework/Headers/qmutex.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSServerController.o ../TinyServer/Controllers/TSServerController.cpp
+
+moc_httplistener.o: moc_httplistener.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_httplistener.o moc_httplistener.cpp
+
+moc_httpconnectionhandler.o: moc_httpconnectionhandler.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_httpconnectionhandler.o moc_httpconnectionhandler.cpp
+
+moc_httpconnectionhandlerpool.o: moc_httpconnectionhandlerpool.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_httpconnectionhandlerpool.o moc_httpconnectionhandlerpool.cpp
+
+moc_httprequesthandler.o: moc_httprequesthandler.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_httprequesthandler.o moc_httprequesthandler.cpp
+
+moc_httpsessionstore.o: moc_httpsessionstore.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_httpsessionstore.o moc_httpsessionstore.cpp
+
+moc_staticfilecontroller.o: moc_staticfilecontroller.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_staticfilecontroller.o moc_staticfilecontroller.cpp
 
 moc_TSMainWindow.o: moc_TSMainWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_TSMainWindow.o moc_TSMainWindow.cpp
