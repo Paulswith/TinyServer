@@ -7,7 +7,6 @@
 class TSBodiesModel : public QStandardItemModel
 {
 public:
-//    explicit TSBodiesModel();
     explicit TSBodiesModel(QObject *parent = nullptr);
 };
 

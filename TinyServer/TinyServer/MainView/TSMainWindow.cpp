@@ -18,18 +18,18 @@ TSMainWindow::TSMainWindow(QWidget *parent) :
     setMouseTracking(true);
     connect(this, &TSMainWindow::signal_printToConsole,
             ui->ts_consoleWidget, &TSConsole::showToConsole);
+
+    connect(ui->ts_tabWidget, &QTabWidget::tabBarDoubleClicked, [&](int index){
+        qDebug() << "tabBarDoubleClicked: " << index;
+        if (index == 1) ui->ts_bodyEditWidget->reloadDataModel();
+    });
 }
 
 void TSMainWindow::showEvent(QShowEvent *event)
 {
     connect(ui->ts_startListen, &QPushButton::clicked, [&](){
-        QRect w_rect = geometry();
-        QRect subRect(w_rect.x()+w_rect.width(),w_rect.y(),
-                      400,w_rect.height());
-        bodyEditWidget = new TSBodyEditWidget(subRect);
-        bodyEditWidget->show();
+        printToConsole("请求开启服务监听！");
     });
-
 // 获取当前IP
     connect(ui->ts_suspendListen, &QPushButton::clicked, [&](){
         printToConsole(currentIp());

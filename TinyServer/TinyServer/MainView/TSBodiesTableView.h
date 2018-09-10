@@ -9,6 +9,7 @@ class TSBodiesTableView : public QTableView
     Q_OBJECT
 public:
     explicit TSBodiesTableView(QWidget *parent = nullptr);
+    void reloadDataModel();
 
 private:
     // 初始化标题和标题宽度
@@ -21,12 +22,15 @@ private:
         return titleLabelInfos;
     }
 
-    void reloadDataModel();
     void setBaseAttribute();
     void setMouseRightClickAttribute();
-
     void contextMenuEvent(QContextMenuEvent *event);
 
+    //开启子窗口：
+    void showAddBodyWindow();
+    bool isAddBodyWindowOpened = false;
+
+    void removeBodyItem();
 };
 
 #endif // TSBODIESTABLEVIEW_H

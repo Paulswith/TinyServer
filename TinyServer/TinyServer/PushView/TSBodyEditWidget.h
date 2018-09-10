@@ -12,11 +12,15 @@ public:
     TSBodyEditWidget(QRect geometry, QWidget *parent = nullptr);
     ~TSBodyEditWidget();
 
+signals:
+    void signal_windowClose();
+    void signal_addNewBody();
+
 private:
     Ui::TSBodyEditWidget *ui;
-    bool checkSaveData();  // 检查待写入的数据是否合法
+    QPair<bool, QStringList> checkSaveData();  // 检查待写入的数据是否合法
     void showEvent(QShowEvent *event);
-
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // TSBODYEDITWIDGET_H

@@ -30,7 +30,9 @@ SOURCES += \
     MainView/TSConsole.cpp \
     MainView/TSBodiesTableView.cpp \
     Model/TSBodiesModel.cpp \
-    Tools/TSSqlConnection.cpp
+    Tools/TSSqlConnection.cpp \
+    Tools/TSHelpTools.cpp \
+    Model/TSGlobalAttribute.cpp
 
 HEADERS += \
     MainView/TSMainWindow.h \
@@ -40,7 +42,9 @@ HEADERS += \
     MainView/TSBodiesTableView.h \
     Model/TSBodiesModel.h \
     Tools/TSSqlConnection.h \
-    Tools/TSConfigUtil.h
+    Tools/TSConfigUtil.h \
+    Tools/TSHelpTools.h \
+    Model/TSGlobalAttribute.h
 
 FORMS += \
     Design_Forms/TS_design.ui \

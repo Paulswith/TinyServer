@@ -1,17 +1,22 @@
 #include "TSSqlConnection.h"
 #include <QDebug>
 #include "Tools/TSConfigUtil.h"
+#include "Tools/TSHelpTools.h"
 #include <QSqlQuery>
+#include "Model/TSGlobalAttribute.h"
+
 
 
 QString const DB_TYPE = "QSQLITE";
-QString const DB_TABLE_NAME = "requests";
+QString const DB_TABLE_NAME = "body_interaction";
 QString const DB_CONNECT_NAME = "SQLITE_DB_CNT";
 
 /*all - sql strings*/
 const QString sql_queryall = QString("select * from %1").arg(DB_TABLE_NAME);
-const QString sql_querysingle = QString("select * from %1 where path=':A'").arg(DB_TABLE_NAME);
+const QString sql_queryallPath = QString("select path from %1").arg(DB_TABLE_NAME);
+const QString sql_querysingle = QString("select count(*) from %1 where path=:A").arg(DB_TABLE_NAME); // 不带引号
 const QString sql_insertsingle = QString("insert into %1 values(:A, :B, :C, :D)").arg(DB_TABLE_NAME);
+const QString sql_deleteOneRow = QString("DELETE FROM %1 WHERE path=:A ").arg(DB_TABLE_NAME);  // delete 不带引号
 
 
 QSqlDatabase TSSqlConnection::getSqlConnection(bool *isOpen, QSqlError *error)
@@ -39,6 +44,7 @@ QSqlDatabase TSSqlConnection::getSqlConnection(bool *isOpen, QSqlError *error)
 
 QList<QList<QStandardItem *>> TSSqlConnection::getAllBodyItems()
 {
+
     QList<QList<QStandardItem *>> allBodyItems;
     QSqlError error;
     bool isOpen;
@@ -59,12 +65,9 @@ QList<QList<QStandardItem *>> TSSqlConnection::getAllBodyItems()
             QList<QStandardItem *> items;
             QStandardItem *itemPath = new QStandardItem(query.value(0).toString());
             QStandardItem *method = new QStandardItem(query.value(1).toString());
-            QStandardItem *reqParam = new QStandardItem(query.value(2).toString());
             // 把json('') 字符替换
-            QStandardItem *reqJson = new QStandardItem( [&]() -> QString {
-                                    QByteArray queryJson = query.value(3).toByteArray();
-                                    return QString(queryJson.replace(queryJson.size()-2, 2, "").replace(0, 6, ""));
-                                                        }());
+            QStandardItem *reqParam = new QStandardItem(TSHelpTools::filterJsonPre(query.value(2).toString()));
+            QStandardItem *reqJson = new QStandardItem(TSHelpTools::filterJsonPre(query.value(3).toString()));
             items <<itemPath << method << reqParam << reqJson;
             allBodyItems << items;
         }
@@ -74,13 +77,13 @@ QList<QList<QStandardItem *>> TSSqlConnection::getAllBodyItems()
 
 bool TSSqlConnection::isPathInDBsets(QString &path)
 {
-    bool isExist = true; // 初始化为存在不允许添加
+//    bool isExist = true; // 初始化为存在不允许添加
     QSqlError error;
     bool isOpen;
     QSqlDatabase db = getSqlConnection(&isOpen, &error);
     if (!isOpen) {
         qDebug() << "getSqlConnection-Error: " << error.text();
-        return isExist;
+        return true;
     }
 
     QSqlQuery query(db);
@@ -88,14 +91,13 @@ bool TSSqlConnection::isPathInDBsets(QString &path)
     query.bindValue(":A", path);
     if (!query.exec()) {
         qDebug() << "query.exec Error: " << query.lastError();
-        return isExist;
+        return true;
     }else if (query.next()) {
-        qDebug() << "query.hasItemExist Error: " << query.value(0).toString();
-        return isExist;
-    }else{
-        isExist = false;
+        int countExist = query.value(0).toInt();
+        qDebug() << "query.hasItemExist Error(Count): " << countExist;
+        if (countExist != 0) return true;
     }
-    return isExist;
+    return false;
 }
 
 bool TSSqlConnection::insertBodyData(QStringList &insertList)
@@ -115,8 +117,8 @@ bool TSSqlConnection::insertBodyData(QStringList &insertList)
         query.prepare(sql_insertsingle);
         query.bindValue(":A", insertList.at(0));
         query.bindValue(":B", insertList.at(1));
-        query.bindValue(":C", insertList.at(2));
-        query.bindValue(":D", insertList.at(3));
+        query.bindValue(":C", QString("json('%1')").arg(insertList.at(2)));
+        query.bindValue(":D", QString("json('%1')").arg(insertList.at(3)));
 
         if (!query.exec()) {
             qDebug() << "query.exec Error: " << query.lastError();
@@ -130,17 +132,61 @@ bool TSSqlConnection::insertBodyData(QStringList &insertList)
         qDebug() << "insert Exception: " << exc.what();
         db.rollback();
         return isHanlderSuc;
-    }
-    /*
-    catch (...){
+    }catch (...){
         qDebug() << "insert Exception(...): ";
         db.rollback();
         return isHanlderSuc;
-    }*/
+    }
 
     return isHanlderSuc;
 }
 
+void TSSqlConnection::updateExistPaths()
+{
+    GlobalStaticPro::alreadyExistPaths.clear();
+    QSqlError error;
+    bool isOpen;
+    QSqlDatabase db = getSqlConnection(&isOpen, &error);
+    if (!isOpen) {
+        qDebug() << "getSqlConnection-Error: " << error.text();
+        return;
+    }
+
+    QSqlQuery query(db);
+    query.prepare(sql_queryallPath);
+    if (!query.exec()) {
+        qDebug() << "query-exec-Error: " << query.lastError().text();
+    }else{
+        while(query.next()) {
+            GlobalStaticPro::alreadyExistPaths << query.value(0).toString();
+        }
+    }
+}
+
+void TSSqlConnection::deleteExistPaths(QString &path)
+{
+    QSqlError error;
+    bool isOpen;
+    QSqlDatabase db = getSqlConnection(&isOpen, &error);
+    if (!isOpen) {
+        qDebug() << "getSqlConnection-Error: " << error.text();
+        return;
+    }
+
+    QSqlQuery query(db);
+    query.prepare(sql_deleteOneRow);
+    query.bindValue(":A", path);
+    if (!query.exec()) {
+        qDebug() << "query-exec-Error: " << query.lastError().text();
+        db.rollback();
+    }else{
+        qDebug() << "query-exec-suc!";
+        db.commit();
+        query.finish();
+    }
+    // 更新一下paths
+//    updateExistPaths();
+}
 
 void TSSqlConnection::closeSqlConnection()
 {
@@ -149,4 +195,3 @@ void TSSqlConnection::closeSqlConnection()
         QSqlDatabase::removeDatabase(DB_CONNECT_NAME);
     }
 }
-

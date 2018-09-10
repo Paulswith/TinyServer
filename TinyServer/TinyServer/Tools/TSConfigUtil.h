@@ -21,6 +21,10 @@ public:
 
 private:
     static QString queryPath(QString searchFileSuffix){
+        // linux_debug
+        return QString("/home/dobby/Code/Cpp/TinyServer/TinyServer/TinyServer/Other/data.db");
+
+
         QString binPath = QCoreApplication::applicationDirPath();
         quint8 deep = 0;
         QFile searchFile;

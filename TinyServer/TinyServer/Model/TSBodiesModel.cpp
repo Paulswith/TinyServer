@@ -4,6 +4,7 @@
 
 #include "TSBodiesModel.h"
 #include "Tools/TSSqlConnection.h"
+#include "Model/TSGlobalAttribute.h"
 
 
 TSBodiesModel::TSBodiesModel(QObject *parent)
@@ -14,4 +15,7 @@ TSBodiesModel::TSBodiesModel(QObject *parent)
     foreach(QList<QStandardItem *> singleItem, allBodyItems){
         appendRow(singleItem);
     }
+    // 更新全局paths
+    TSSqlConnection::updateExistPaths();
+    qDebug() << "alreadyExistPaths:" << GlobalStaticPro::alreadyExistPaths;
 }

@@ -22,13 +22,14 @@ signals:
 
 private:
     Ui::TSMainWindow *ui;
-    bool isMousePressed; // 拖拽的前提是鼠标左键摁住
     QString currentIp(); // 获取当前IP
     void printToConsole(QString str); // 辅助输出到控制
 
     // 事件处理:
     void showEvent(QShowEvent *event);
     void closeEvent(QCloseEvent *event);
+
+
 
 };
 
