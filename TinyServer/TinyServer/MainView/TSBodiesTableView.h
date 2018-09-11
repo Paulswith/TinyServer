@@ -27,7 +27,12 @@ private:
     void showAddBodyWindow();
     bool isAddBodyWindowOpened = false;
 
+    // 删除item
     void removeBodyItem();
+
+    //
+//    void closeEvent(QCloseEvent *event);
+
 };
 
 #endif // TSBODIESTABLEVIEW_H

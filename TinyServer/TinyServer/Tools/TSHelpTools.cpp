@@ -1,5 +1,4 @@
 #include "TSHelpTools.h"
-#include <QJsonDocument>
 #include <QJsonParseError>
 #include <QDebug>
 #include "Model/TSGlobalAttribute.h"
@@ -9,11 +8,12 @@ TSHelpTools::TSHelpTools()
 
 }
 
-bool TSHelpTools::isInvalidJson(QString &checkContent)
+bool TSHelpTools::isInvalidJson(QString &checkContent, QString &analysJson)
 {
     QJsonParseError parseError;
-    QJsonDocument::fromJson(checkContent.toLatin1(), &parseError);
+    QJsonDocument json = QJsonDocument::fromJson(checkContent.toLatin1(), &parseError);
     if (parseError.error == QJsonParseError::NoError) {
+        analysJson = QString(json.toJson(QJsonDocument::Compact)); // 格式化
         return false;
     }else{
         qDebug() << "parse-json-error,content: " << checkContent
@@ -21,6 +21,20 @@ bool TSHelpTools::isInvalidJson(QString &checkContent)
         return true;
     }
 }
+bool TSHelpTools::isValidJson(QByteArray checkContent, QJsonDocument *analysJson)
+{
+    QJsonParseError parseError;
+    QJsonDocument json = QJsonDocument::fromJson(checkContent, &parseError);
+    if (parseError.error == QJsonParseError::NoError) {
+        *analysJson = json;
+        return true;
+    }else{
+        qDebug() << "parse-json-error,content: " << checkContent
+                 << " Error: " << parseError.errorString();
+        return false;
+    }
+}
+
 
 QString TSHelpTools::filterJsonPre(QString jsonContent)
 {
@@ -37,3 +51,4 @@ bool TSHelpTools::isPathAlreadyExist(QString & path)
     if (GlobalStaticPro::alreadyExistPaths.contains(path, Qt::CaseInsensitive)) return true;
     return false;
 }
+

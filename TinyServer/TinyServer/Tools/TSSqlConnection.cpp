@@ -15,6 +15,7 @@ QString const DB_CONNECT_NAME = "SQLITE_DB_CNT";
 const QString sql_queryall = QString("select * from %1").arg(DB_TABLE_NAME);
 const QString sql_queryallPath = QString("select path from %1").arg(DB_TABLE_NAME);
 const QString sql_querysingle = QString("select count(*) from %1 where path=:A").arg(DB_TABLE_NAME); // 不带引号
+const QString sql_querysingleItems = QString("select * from %1 where path=:A").arg(DB_TABLE_NAME); // 不带引号
 const QString sql_insertsingle = QString("insert into %1 values(:A, :B, :C, :D)").arg(DB_TABLE_NAME);
 const QString sql_deleteOneRow = QString("DELETE FROM %1 WHERE path=:A ").arg(DB_TABLE_NAME);  // delete 不带引号
 
@@ -184,9 +185,37 @@ void TSSqlConnection::deleteExistPaths(QString &path)
         db.commit();
         query.finish();
     }
-    // 更新一下paths
-//    updateExistPaths();
 }
+
+bodyStruct TSSqlConnection::queryBodyItemWithPath(const QString path)
+{
+    bodyStruct bodies;
+    QSqlError error;
+    bool isOpen;
+    QSqlDatabase db = getSqlConnection(&isOpen, &error);
+    if (!isOpen) {
+        qDebug() << "getSqlConnection-Error: " << error.text();
+        return bodies;
+    }
+
+    QSqlQuery query(db);
+    query.prepare(sql_querysingleItems);
+    query.bindValue(":A", path);
+    if (!query.exec()) {
+        qDebug() << "query-exec-Error: " << query.lastError().text();
+        return bodies;
+    }else{
+        while(query.next()) {
+            bodies.path = query.value(0).toString();
+            bodies.method = query.value(1).toString();
+            bodies.reqJson = QJsonDocument::fromJson(TSHelpTools::filterJsonPre(query.value(2).toString()).toLatin1());
+            bodies.rspJson = QJsonDocument::fromJson(TSHelpTools::filterJsonPre(query.value(3).toString()).toLatin1());
+        query.finish();
+        }
+        return bodies;
+    }
+}
+
 
 void TSSqlConnection::closeSqlConnection()
 {

@@ -5,6 +5,7 @@
 #include <QHostAddress>
 #include <QAbstractSocket>
 #include <QSettings>
+#include <QCoreApplication>
 
 #include "TSMainWindow.h"
 #include "Tools/TSSqlConnection.h"
@@ -25,19 +26,37 @@ TSMainWindow::TSMainWindow(QWidget *parent) :
         qDebug() << "tabBarDoubleClicked: " << index;
         if (index == 1) ui->ts_bodyEditWidget->reloadDataModel();
     });
+
+    // 定时器预先设置：
+    statusTimer = new QTimer(this);
+    statusTimer->setInterval(300);
+    connect(statusTimer, &QTimer::timeout, [&](){
+        if (cur_color_index == statuColorSheets.count()-1) cur_color_index=0;
+        ui->ts_connectionInfoLabel->setStyleSheet(statuColorSheets.at(cur_color_index));
+        cur_color_index++;
+    });
+
+    // 真的有存在未init就是！null
+    serverListener = nullptr;
 }
 
 void TSMainWindow::showEvent(QShowEvent *event)
 {
+    ui->ts_connectionInfoLabel->setStyleSheet("QLabel {background-color:rgb(112,128,144);}");
+
     connect(ui->ts_startListen, &QPushButton::clicked, [&](){
-        printToConsole("+请求开启服务监听！");
+        printToConsole("+开启服务监听！");
         startServerListen();
+        if (!statusTimer->isActive()) statusTimer->start();
     });
 
     connect(ui->ts_suspendListen, &QPushButton::clicked, [&](){
         printToConsole("+暂停服务监听！");
-        if (serverListener != nullptr) serverListener->close();
+        if (isServerListening && serverListener != nullptr) serverListener->close();
         ui->ts_connectionInfoLabel->setText("Non-listening");
+        ui->ts_connectionInfoLabel->setStyleSheet("QLabel {background-color:rgb(112,128,144);}");
+        isServerListening = false;
+        if (statusTimer->isActive()) statusTimer->stop();
     });
 
     event->accept();
@@ -67,12 +86,12 @@ void TSMainWindow::startServerListen()
         serverListener = new stefanfrings::HttpListener(listenerSettings, requestHandlerController, this);
         qDebug() << "server init listening";
 
-//        // 连接控制台信号:
-//        connect(requestHandlerController, &TSServerController::signal_onnectionInfoToConsole, [&](QString infoContent){
-//            printToConsole(infoContent);
-//        });
+        // 连接控制台信号:
+        connect(requestHandlerController, &TSServerController::signal_connectionInfoToConsole,
+                ui->ts_consoleWidget, &TSConsole::showToConsole);
     }
     ui->ts_connectionInfoLabel->setText(QString("%1:%2").arg(currentIp()).arg(GlobalStaticPro::serverPort));
+    isServerListening = true;
 }
 
 QString TSMainWindow::currentIp()
@@ -99,8 +118,12 @@ void TSMainWindow::printToConsole(QString str)
 void TSMainWindow::closeEvent(QCloseEvent *event)
 {
     qDebug() << "all-Windows-close";
-    if (bodyEditWidget != nullptr) bodyEditWidget->close(); // 要关一起关
-    TSSqlConnection::closeSqlConnection();  // 关闭数据库连接
+    // pusView要关一起关
+    if (bodyEditWidget != nullptr) bodyEditWidget->close();
+    // 关闭数据库连接
+    TSSqlConnection::closeSqlConnection();
+    // 关闭服务器
+    if (serverListener!=nullptr && serverListener->isListening()) serverListener->close();
     event->accept();
 }
 

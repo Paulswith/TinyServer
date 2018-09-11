@@ -2,6 +2,7 @@
 #define TSMAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 #include "TSConsole.h"
 #include "PushView/TSBodyEditWidget.h"
@@ -35,6 +36,13 @@ private:
     stefanfrings::HttpListener *serverListener;
     void startServerListen();
 
+    // 状态色策略
+    void startStatusColorShow();
+    QStringList statuColorSheets = {"QLabel {background-color:rgb(154,255,154);}",
+                                    "QLabel {background-color:rgb(0,205,0);}",
+                                    "QLabel {background-color:rgb(0,139,69);}"};
+    quint8 cur_color_index = 0;
+    QTimer *statusTimer;
 };
 
 #endif // TSMAINWINDOW_H

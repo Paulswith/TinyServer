@@ -4,6 +4,14 @@
 #include <QWidget>
 #include "ui_TSBodyEdit_design.h"
 
+enum validBodyEnum{
+    NoError,
+    pathExistError,
+    reqMothodUnMatchError,
+    reqJsonInvalidError,
+    rspJsonInvalidError
+};
+
 class TSBodyEditWidget : public QWidget
 {
     Q_OBJECT
@@ -18,7 +26,7 @@ signals:
 
 private:
     Ui::TSBodyEditWidget *ui;
-    QPair<bool, QStringList> checkSaveData();  // 检查待写入的数据是否合法
+    QPair<validBodyEnum, QStringList> checkSaveData();  // 检查待写入的数据是否合法
     void showEvent(QShowEvent *event);
     void closeEvent(QCloseEvent *event);
 };

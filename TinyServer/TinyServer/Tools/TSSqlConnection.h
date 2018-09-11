@@ -5,6 +5,7 @@
 #include <QtSql/QSqlError>
 #include <QScopedPointer>
 #include <QStandardItem>
+#include "Model/TSGlobalAttribute.h"
 
 // 建表脚本： create table body_interaction(path TEXT not null, method TEXT,  reqjson JSON, rspJson JSON);
 class TSSqlConnection
@@ -23,7 +24,8 @@ public:
     static void updateExistPaths();
     // 删除Path
     static void deleteExistPaths(QString &path);
-    // DELETE FROM body_interaction WHERE path='/path1';
+    // 从path拿全部数据
+    static bodyStruct queryBodyItemWithPath(const QString path);
 };
 
 #endif // TSSQLCONNECTION_H

@@ -87,13 +87,16 @@ public:
         horizontalLayout->setContentsMargins(0, 7, 0, 7);
         ts_startListen = new QPushButton(ts_hanlderBtnsWidgeth);
         ts_startListen->setObjectName(QStringLiteral("ts_startListen"));
-        ts_startListen->setStyleSheet(QStringLiteral("QPushButton {color:rgb(51,161,201);}"));
+        ts_startListen->setStyleSheet(QStringLiteral("QPushButton {color:rgb(51,161,201);}\
+                                                      QPushButton:pressed{color:rgb(170, 0, 0);}\
+                                                      QPushButton:!enabled {background-color:#ff0000;}"));
 
         horizontalLayout->addWidget(ts_startListen);
 
         ts_suspendListen = new QPushButton(ts_hanlderBtnsWidgeth);
         ts_suspendListen->setObjectName(QStringLiteral("ts_suspendListen"));
-        ts_suspendListen->setStyleSheet(QStringLiteral("QPushButton {color:rgb(51,161,201);}"));
+        ts_suspendListen->setStyleSheet("QPushButton{color:rgb(51,161,201);} QPushButton:pressed {color:rgb(170,0,0);}");
+
 
         horizontalLayout->addWidget(ts_suspendListen);
 

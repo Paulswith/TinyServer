@@ -10,14 +10,13 @@ using namespace stefanfrings;
 
 class TSServerController : public HttpRequestHandler
 {
-//    Q_OBJECT
+    Q_OBJECT
 public:
     TSServerController(QObject *parent=NULL);
     void service(HttpRequest & request, HttpResponse & response);
 
-//signals:
-//    void signal_onnectionInfoToConsole(QString str);
-
+signals:
+    void signal_connectionInfoToConsole(QString str);
 };
 
 #endif // TSSERVERCONTROLLER_H

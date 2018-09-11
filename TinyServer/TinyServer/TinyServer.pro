@@ -3,7 +3,6 @@
 # Project created by QtCreator 2018-09-07T15:50:40
 #
 #-------------------------------------------------
-
 QT       += core gui network sql
 include(framework/QtWebApp/httpserver/httpserver.pri)
 
