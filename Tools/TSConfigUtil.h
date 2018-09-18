@@ -22,14 +22,14 @@ public:
 private:
     static QString queryPath(QString searchFileSuffix){
         // linux_debug
-//#ifdef Q_OS_LINUX
-//        qDebug() << "LINUX-loadConfig";
-//        if (searchFileSuffix == sqlFilenameSuffix_debug){
-//            return QString("/home/dobby/Code/Cpp/TinyServer/TinyServer/TinyServer/Other/data.db");
-//        }else{
-//            return QString("/home/dobby/Code/Cpp/TinyServer/TinyServer/TinyServer/Other/config.ini");
-//        }
-//#endif
+#ifdef Q_OS_LINUX
+        qDebug() << "LINUX-loadConfig";
+        if (searchFileSuffix == sqlFilenameSuffix_debug){
+            return QString("/home/dobby/Code/Cpp/TinyServer/TinyServer/TinyServer/Other/data.db");
+        }else{
+            return QString("/home/dobby/Code/Cpp/TinyServer/TinyServer/TinyServer/Other/config.ini");
+        }
+#endif
 
         QString binPath = QCoreApplication::applicationDirPath();
         quint8 deep = 0;

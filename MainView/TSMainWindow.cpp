@@ -102,12 +102,12 @@ QString TSMainWindow::currentIp()
         if ((ipItem.protocol() == QAbstractSocket::IPv4Protocol)
                 &&  (ipItem != QHostAddress::Null)
                 && (ipItem != QHostAddress::LocalHost)
-                && (ipItem.toString().left(4) == "192.")) {
+                && (ipItem.toString().left(8) == "192.168.")) {
             qDebug() << "Finded-ip: " << ipItem.toString();
-            t_ip += (ipItem.toString()+"|");
+            t_ip = ipItem.toString();
         }
     }
-    return "[" + t_ip + "]";
+    return t_ip;
 }
 
 void TSMainWindow::printToConsole(QString str)

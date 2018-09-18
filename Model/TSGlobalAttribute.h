@@ -13,11 +13,6 @@ struct bodyStruct{
     QJsonDocument rspJson;
 };
 
-// 请求方式
-enum RequestMethod {
-    POST,
-    GET
-};
 
 namespace GlobalStaticPro {
     // 当前已有path， 区分大小写

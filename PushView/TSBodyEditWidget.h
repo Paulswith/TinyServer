@@ -17,10 +17,9 @@ class TSBodyEditWidget : public QWidget
     Q_OBJECT
 
 public:
-    TSBodyEditWidget(QRect geometry, QWidget *parent=nullptr);
+    TSBodyEditWidget(QRect geometry, QWidget *parent = nullptr);
     ~TSBodyEditWidget();
     void showViewWindowWithData(const QStringList &data);
-    void setUpdateBtnEnable(bool shouldEnable);
 
 signals:
     void signal_windowClose();
@@ -34,9 +33,6 @@ private:
 
     // show tips
     void showTips(const validBodyEnum &enumError);
-    // isUpdateBtnEnable
-//    bool isUpdateBtnEnable = true;
-
 };
 
 #endif // TSBODYEDITWIDGET_H
