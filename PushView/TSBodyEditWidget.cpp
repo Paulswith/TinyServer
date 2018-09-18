@@ -14,6 +14,12 @@ TSBodyEditWidget::TSBodyEditWidget(QRect geometry, QWidget *parent)
 {
     ui->setupUi(this);
     setGeometry(geometry);
+    ui->ts_updateBtn->setEnabled(false);
+}
+
+void TSBodyEditWidget::setUpdateBtnEnable(bool shouldEnable)
+{
+    ui->ts_updateBtn->setEnabled(shouldEnable);
 }
 
 void TSBodyEditWidget::showEvent(QShowEvent *event)

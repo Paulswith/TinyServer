@@ -66,12 +66,14 @@ void TSBodiesTableView::contextMenuEvent(QContextMenuEvent *event)
     // 鼠标右键列表增删按钮, 删除Double-ensure
     auto menu = new QMenu();
     QAction *ViewAction = menu->addAction("View-Item");
-    if (isAddBodyWindowOpened) ViewAction->setEnabled(false);
+    if (isAddBodyWindowOpened || GlobalStaticPro::bodyDataModel.isEmpty()) ViewAction->setEnabled(false);
     connect(ViewAction, &QAction::triggered, this, &TSBodiesTableView::viewBodyItem);
+
 
     QAction *addAction = menu->addAction("Add-Item");
     if (isAddBodyWindowOpened) addAction->setEnabled(false);
     connect(addAction, &QAction::triggered, this, &TSBodiesTableView::showAddBodyWindow);
+
 
     QAction *removeAction = menu->addAction("Remove-Item");
     if (model()->rowCount() == 0) removeAction->setEnabled(false);
@@ -89,8 +91,8 @@ void TSBodiesTableView::viewBodyItem()
     showAddBodyWindow();
     if (isAddBodyWindowOpened && bodyEditWidget!=nullptr){
         bodyEditWidget->showViewWindowWithData(currentItems);
+        bodyEditWidget->setUpdateBtnEnable(true);
     }
-
 //    bodyEditWidget->ts_path
 }
 
@@ -103,11 +105,13 @@ void TSBodiesTableView::showAddBodyWindow()
     bodyEditWidget = new TSBodyEditWidget(subRect);
     bodyEditWidget->show();
     isAddBodyWindowOpened = true;
+
     connect(bodyEditWidget, &TSBodyEditWidget::signal_windowClose, [&](){
         // 子窗口关闭
         isAddBodyWindowOpened = false;
         bodyEditWidget = nullptr;  // 关闭的时候还是需要指向空
     });
+
     connect(bodyEditWidget, &TSBodyEditWidget::signal_addNewBody, [&](){
         reloadDataModel();
     });
