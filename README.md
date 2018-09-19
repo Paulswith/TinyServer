@@ -4,6 +4,7 @@ A tiny server for developer, set request-content and response-content , when req
 
 I think it will help developer data-debug effective, Don't need to write fake-data in the code.
 
+- tips `request and response only support json format.`
 
 ## design with: Cpp-11  QT5.11.1  QtWebApp(A aswesome web design with Qt)
 
