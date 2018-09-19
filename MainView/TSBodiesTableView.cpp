@@ -44,23 +44,6 @@ void TSBodiesTableView::setBaseAttribute()
 }
 
 
-void TSBodiesTableView::setMouseRightClickAttribute()
-{
-    setContextMenuPolicy(Qt::CustomContextMenu);
-    auto menu = new QMenu();
-    QAction *clickMeAction = menu->addAction("ClickMe");
-    connect(this, &QWidget::customContextMenuRequested, [&](const QPoint &pos){
-        int rowIndex = rowAt(pos.y());
-        selectRow(rowIndex); // 选中改行
-        menu->exec(QCursor::pos());
-        qDebug() << "right-click: ";
-    });
-
-    connect(clickMeAction, &QAction::triggered, [&](){
-        qDebug() << "clickMeAction->triggered";
-    });
-}
-
 void TSBodiesTableView::contextMenuEvent(QContextMenuEvent *event)
 {
     // 鼠标右键列表增删按钮, 删除Double-ensure

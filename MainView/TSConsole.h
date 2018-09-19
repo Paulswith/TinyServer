@@ -28,6 +28,7 @@ private:
 public slots:
     // 用来展示日志
     void showToConsole(QString content);
+    void contextMenuEvent(QContextMenuEvent *event);
 };
 
 #endif // TSCONSOLE_H

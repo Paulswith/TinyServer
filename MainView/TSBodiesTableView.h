@@ -21,7 +21,6 @@ private:
     }
 
     void setBaseAttribute();
-    void setMouseRightClickAttribute();
     void contextMenuEvent(QContextMenuEvent *event);
 
     //开启子窗口：
