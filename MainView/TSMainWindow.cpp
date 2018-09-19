@@ -104,7 +104,7 @@ QString TSMainWindow::currentIp()
                 && (ipItem != QHostAddress::LocalHost)
                 && (ipItem.toString().left(8) == "192.168.")) {
             qDebug() << "Finded-ip: " << ipItem.toString();
-            t_ip = ipItem.toString();
+            t_ip += "["+ipItem.toString()+"]";
         }
     }
     return t_ip;

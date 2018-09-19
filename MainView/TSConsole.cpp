@@ -1,5 +1,6 @@
 #include "TSConsole.h"
 #include <QScrollBar>
+#include <QCoreApplication>
 
 TSConsole::TSConsole(QWidget *parent) : QTextEdit(parent)
 {
@@ -15,7 +16,8 @@ void TSConsole::showToConsole(QString content) {
     QScrollBar *scrollbar = verticalScrollBar();
     scrollbar->setValue(scrollbar->maximum());
     // 刷新, 整个比update管用
-    QWidget::repaint();
+//    QWidget::repaint();
+    QCoreApplication::processEvents();
 }
 
 QString TSConsole::prehandlerColorContent(QString content) {
