@@ -11,7 +11,11 @@ TSServerController::TSServerController(QObject *parent)
 
 void TSServerController::service(HttpRequest &request, HttpResponse &response)
 {
+<<<<<<< HEAD
     emit signal_connectionInfoToConsole("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
+=======
+    emit signal_connectionInfoToConsole("****************************************************");
+>>>>>>> 9da986c594bbf220eb45ffdf7ff17723188f2456
     emit signal_connectionInfoToConsole(QString("+new request:[%1] -> \n%2").
                                         arg(QString(request.getPath())).arg(QString(request.getBody())));
 

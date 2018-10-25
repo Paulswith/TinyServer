@@ -1,6 +1,9 @@
 #include "TSConsole.h"
 #include <QScrollBar>
 #include <QCoreApplication>
+#include <QMenu>
+#include <QAction>
+#include <QContextMenuEvent>
 
 TSConsole::TSConsole(QWidget *parent) : QTextEdit(parent)
 {
@@ -33,4 +36,16 @@ QString TSConsole::prehandlerColorContent(QString content) {
     content.replace(0, 1, "");
     return "<span style=\" font-size:13pt; font-weight:600; color:" +color+ ";\">"
            +content+ "</span>";
+}
+
+void TSConsole::contextMenuEvent(QContextMenuEvent *event) {
+    // 鼠标右键: 清空日志
+    auto menu = new QMenu();
+    QAction *removeAction = menu->addAction("clear-log");
+    connect(removeAction, &QAction::triggered, [&](){
+        clear();
+    });
+
+    menu->exec(QCursor::pos());
+    event->accept();
 }
