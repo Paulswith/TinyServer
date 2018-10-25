@@ -136,13 +136,8 @@ public:
 //        auto adHlayout = new QHBoxLayout(ts_showADWidget);
         ts_showADWidget->setObjectName(QStringLiteral("ts_showADWidget"));
         ts_showADWidget->setStyleSheet(QStringLiteral("QWidget {background:rgb(189,252,201);}"));
-<<<<<<< HEAD
 //        ts_adLabel = new QLabel(QString(""));
 //        ts_adLabel->setAlignment(Qt::AlignCenter);
-=======
-        ts_adLabel = new QLabel(QString("AD space for rent"));
-        ts_adLabel->setAlignment(Qt::AlignCenter);
->>>>>>> 9da986c594bbf220eb45ffdf7ff17723188f2456
         QFont font;
         font.setPointSize(20);
 //        ts_adLabel->setFont(font);
