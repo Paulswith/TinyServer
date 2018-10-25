@@ -5,6 +5,7 @@
 #include <QAction>
 #include <QContextMenuEvent>
 
+
 TSConsole::TSConsole(QWidget *parent) : QTextEdit(parent)
 {
     setReadOnly(true);
@@ -45,7 +46,7 @@ void TSConsole::contextMenuEvent(QContextMenuEvent *event) {
     connect(removeAction, &QAction::triggered, [&](){
         clear();
     });
-
-    menu->exec(QCursor::pos());
+     menu->exec(QCursor::pos());
     event->accept();
 }
+

@@ -60,9 +60,12 @@ void TSBodiesTableView::contextMenuEvent(QContextMenuEvent *event)
     if (model()->rowCount() == 0) removeAction->setEnabled(false);
     connect(removeAction, &QAction::triggered, this, &TSBodiesTableView::removeBodyItem);
 
+    // 未选中状态就选第一个:
+    if ( currentIndex().row() == 0 ) setCurrentIndex(currentIndex());
     menu->exec(QCursor::pos());
     event->accept();
 }
+
 
 void TSBodiesTableView::viewBodyItem()
 {
@@ -73,6 +76,7 @@ void TSBodiesTableView::viewBodyItem()
     if (isAddBodyWindowOpened && bodyEditWidget!=nullptr){
         bodyEditWidget->showViewWindowWithData(currentItems);
     }
+
 
 //    bodyEditWidget->ts_path
 }

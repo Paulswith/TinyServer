@@ -53,13 +53,13 @@ void TSMainWindow::showEvent(QShowEvent *event)
     initialTimer();
 
     connect(ui->ts_startListen, &QPushButton::clicked, [&](){
-        printToConsole("+start server listen!");
+        printToConsole("+开启服务监听！");
         startServerListen();
         if (!statusTimer->isActive()) statusTimer->start();
     });
 
     connect(ui->ts_suspendListen, &QPushButton::clicked, [&](){
-        printToConsole("+stop server listen !");
+        printToConsole("+暂停服务监听！");
         if (isServerListening && serverListener != nullptr) serverListener->close();
         ui->ts_connectionInfoLabel->setText("Non-listening");
         ui->ts_connectionInfoLabel->setStyleSheet("QLabel {background-color:rgb(112,128,144);}");

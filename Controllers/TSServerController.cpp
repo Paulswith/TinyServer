@@ -3,6 +3,7 @@
 #include "Model/TSGlobalAttribute.h"
 #include "Tools/TSHelpTools.h"
 #include "Tools/TSSqlConnection.h"
+#include <QDebug>
 
 TSServerController::TSServerController(QObject *parent)
     :HttpRequestHandler(parent)
@@ -11,11 +12,7 @@ TSServerController::TSServerController(QObject *parent)
 
 void TSServerController::service(HttpRequest &request, HttpResponse &response)
 {
-<<<<<<< HEAD
     emit signal_connectionInfoToConsole("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-=======
-    emit signal_connectionInfoToConsole("****************************************************");
->>>>>>> 9da986c594bbf220eb45ffdf7ff17723188f2456
     emit signal_connectionInfoToConsole(QString("+new request:[%1] -> \n%2").
                                         arg(QString(request.getPath())).arg(QString(request.getBody())));
 
@@ -53,6 +50,7 @@ void TSServerController::service(HttpRequest &request, HttpResponse &response)
         return;
     }
     QByteArray retContent = hanlderBody.rspJson.toJson(QJsonDocument::Indented);
-    emit signal_connectionInfoToConsole(QString("#Check succeed:[200] -> \n%1").arg(QString(retContent)));
+    emit signal_connectionInfoToConsole(QString("#Check succeed:[%1] -> \n%2").arg(response.getStatusCode()).arg(QString(retContent)));
+
     response.write(retContent, true);
 }

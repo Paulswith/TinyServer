@@ -22,6 +22,7 @@ private:
 
     void setBaseAttribute();
     void contextMenuEvent(QContextMenuEvent *event);
+//    void setMouseRightClickAttribute();
 
     //开启子窗口：
     TSBodyEditWidget *bodyEditWidget;
