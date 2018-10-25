@@ -22,12 +22,20 @@ public:
 private:
     static QString queryPath(QString searchFileSuffix){
         // linux_debug
-#ifdef Q_OS_LINUX
-        qDebug() << "LINUX-loadConfig";
-        if (searchFileSuffix == sqlFilenameSuffix_debug){
-            return QString("/home/dobby/Code/Cpp/TinyServer/TinyServer/TinyServer/Other/data.db");
+
+#ifdef Q_OS_UNIX
+        qDebug() << "UNIX-loadConfig";
+        if (searchFileSuffix == sqlFilenameSuffix){
+            return QString("/Users/dobby/Dropbox/Code/Cpp/TinyServer/Other/data.db");
         }else{
-            return QString("/home/dobby/Code/Cpp/TinyServer/TinyServer/TinyServer/Other/config.ini");
+            return QString("/Users/dobby/Dropbox/Code/Cpp/TinyServer/Other/config.ini");
+        }
+#else Q_OS_LINUX
+        qDebug() << "LINUX-loadConfig";
+        if (searchFileSuffix == sqlFilenameSuffix){
+            return QString("/Users/dobby/Dropbox/Code/Cpp/TinyServer/Other/data.db");
+        }else{
+            return QString("/Users/dobby/Dropbox/Code/Cpp/TinyServer/Other/config.ini");
         }
 #endif
 

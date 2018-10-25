@@ -23,8 +23,6 @@ namespace GlobalStaticPro {
 }
 
 
-
-
 class TSGlobalAttribute
 {
 public:

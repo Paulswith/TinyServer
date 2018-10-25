@@ -14,7 +14,7 @@ public:
     static bool isValidJson(QByteArray checkContent, QJsonDocument *analysJson);
 
     // 过滤json('')
-    static QString filterJsonPre(QString jsonContent);
+    static QByteArray filterJsonPre(const QByteArray& jsonContent);
 
     // 查询 链接路径是否存在('')
     static bool isPathAlreadyExist(const QString &path);

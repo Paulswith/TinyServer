@@ -13,12 +13,17 @@
 #include "Controllers/TSServerController.h"
 #include "Model/TSGlobalAttribute.h"
 
+
 TSMainWindow::TSMainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::TSMainWindow)
+    ui(new Ui::TSMainWindow),
+    serverListener(nullptr)
 {
     ui->setupUi(this);
-    setMouseTracking(true);
+    // 设置窗口属性:
+    setWindowIcon(QIcon(QPixmap(":/imgs/title.icon")));
+    setWindowTitle("Power Tiny-Server");
+
     connect(this, &TSMainWindow::signal_printToConsole,
             ui->ts_consoleWidget, &TSConsole::showToConsole);
 
@@ -26,23 +31,26 @@ TSMainWindow::TSMainWindow(QWidget *parent) :
         qDebug() << "tabBarDoubleClicked: " << index;
         if (index == 1) ui->ts_bodyEditWidget->reloadDataModel();
     });
+}
 
-    // 定时器预先设置：
+
+void TSMainWindow::initialTimer() {
     statusTimer = new QTimer(this);
-    statusTimer->setInterval(300);
+    statusTimer->setInterval(500);
     connect(statusTimer, &QTimer::timeout, [&](){
+        // 数组循环换色:
         if (cur_color_index == statuColorSheets.count()-1) cur_color_index=0;
         ui->ts_connectionInfoLabel->setStyleSheet(statuColorSheets.at(cur_color_index));
         cur_color_index++;
     });
-
-    // 真的有存在未init就是！null
-    serverListener = nullptr;
 }
+
 
 void TSMainWindow::showEvent(QShowEvent *event)
 {
+    // 定时器预先设置：
     ui->ts_connectionInfoLabel->setStyleSheet("QLabel {background-color:rgb(112,128,144);}");
+    initialTimer();
 
     connect(ui->ts_startListen, &QPushButton::clicked, [&](){
         printToConsole("+开启服务监听！");
@@ -58,7 +66,6 @@ void TSMainWindow::showEvent(QShowEvent *event)
         isServerListening = false;
         if (statusTimer->isActive()) statusTimer->stop();
     });
-
     event->accept();
 }
 

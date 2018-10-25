@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = TinyServer
 TEMPLATE = app
+#RC_FILE = exeIcon.rc
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -33,7 +34,8 @@ SOURCES += \
     Tools/TSSqlConnection.cpp \
     Tools/TSHelpTools.cpp \
     Model/TSGlobalAttribute.cpp \
-    Controllers/TSServerController.cpp
+    Controllers/TSServerController.cpp \
+    MainView/TSLCDClock.cpp
 
 HEADERS += \
     MainView/TSMainWindow.h \
@@ -46,12 +48,16 @@ HEADERS += \
     Tools/TSConfigUtil.h \
     Tools/TSHelpTools.h \
     Model/TSGlobalAttribute.h \
-    Controllers/TSServerController.h
+    Controllers/TSServerController.h \
+    MainView/TSLCDClock.h
 
 FORMS += \
     Design_Forms/TS_design.ui \
     Design_Forms/TSBodyEdit_design.ui
 
 OTHER_FILES += Other/data.db
+
+RESOURCES += \
+    tsresource.qrc
 
 

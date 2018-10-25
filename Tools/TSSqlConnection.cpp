@@ -67,17 +67,20 @@ QList<QList<QStandardItem *>> TSSqlConnection::updateDataModel()
         while(query.next()) {
             auto t_path = query.value(0).toString();
             auto t_method = query.value(1).toString();
-            auto t_req = TSHelpTools::filterJsonPre(query.value(2).toString());
-            auto t_rsp = TSHelpTools::filterJsonPre(query.value(3).toString());
+//            auto t_req = TSHelpTools::filterJsonPre(query.value(2).toString());
+//            auto t_rsp = TSHelpTools::filterJsonPre(query.value(3).toString());
+
+            auto t_req = TSHelpTools::filterJsonPre(query.value(2).toString().toUtf8());
+            auto t_rsp = TSHelpTools::filterJsonPre(query.value(3).toString().toUtf8());
             // 存储的全局模型
             bodyStruct bodies = {t_path, t_method,
-                                 QJsonDocument::fromJson(t_req.toLatin1()),
-                                 QJsonDocument::fromJson(t_rsp.toLatin1())};
+                                 QJsonDocument::fromJson(t_req),
+                                 QJsonDocument::fromJson(t_rsp)};
             // 获取的Items
             QList<QStandardItem *> items = {(new QStandardItem(t_path)),
                                            (new QStandardItem(t_method)),
-                                           (new QStandardItem(t_req)),
-                                           (new QStandardItem(t_rsp)),};
+                                           (new QStandardItem(QString::fromUtf8(t_req))),
+                                           (new QStandardItem(QString::fromUtf8(t_rsp))),};
             allBodyItems << items;
             GlobalStaticPro::bodyDataModel[t_path] = bodies;
         }
@@ -203,8 +206,8 @@ bodyStruct TSSqlConnection::queryBodyItemWithPath(const QString path)
         while(query.next()) {
             bodies.path = query.value(0).toString();
             bodies.method = query.value(1).toString();
-            bodies.reqJson = QJsonDocument::fromJson(TSHelpTools::filterJsonPre(query.value(2).toString()).toLatin1());
-            bodies.rspJson = QJsonDocument::fromJson(TSHelpTools::filterJsonPre(query.value(3).toString()).toLatin1());
+            bodies.reqJson = QJsonDocument::fromJson(TSHelpTools::filterJsonPre(query.value(2).toByteArray()));
+            bodies.rspJson = QJsonDocument::fromJson(TSHelpTools::filterJsonPre(query.value(3).toByteArray()));
         query.finish();
         }
         return bodies;

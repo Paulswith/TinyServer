@@ -22,6 +22,7 @@
 
 #include "MainView/TSConsole.h"
 #include "MainView/TSBodiesTableView.h"
+#include "MainView/TSLCDClock.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -42,8 +43,8 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QLabel *ts_connectTitleLabel;
     QLabel *ts_connectionInfoLabel;
-    QWidget *ts_showADWidget;
-    QLabel *ts_adLabel;
+    TSLCDClock *ts_showADWidget;
+//    QLabel *ts_adLabel;
     QTabWidget *ts_tabWidget;
 //    QWidget *ts_consoleWidget;
     TSConsole *ts_consoleWidget;
@@ -131,16 +132,16 @@ public:
         verticalLayout_2->addWidget(ts_connectionInfoWidgeth);
         horizontalLayout_3->addWidget(ts_connectionManagerWidget);
 
-        ts_showADWidget = new QWidget(ts_topHolderWidget);
-        auto adHlayout = new QHBoxLayout(ts_showADWidget);
+        ts_showADWidget = new TSLCDClock(ts_topHolderWidget);
+//        auto adHlayout = new QHBoxLayout(ts_showADWidget);
         ts_showADWidget->setObjectName(QStringLiteral("ts_showADWidget"));
         ts_showADWidget->setStyleSheet(QStringLiteral("QWidget {background:rgb(189,252,201);}"));
-        ts_adLabel = new QLabel(QString("广告位招租"));
-        ts_adLabel->setAlignment(Qt::AlignCenter);
+//        ts_adLabel = new QLabel(QString(""));
+//        ts_adLabel->setAlignment(Qt::AlignCenter);
         QFont font;
         font.setPointSize(20);
-        ts_adLabel->setFont(font);
-        adHlayout->addWidget(ts_adLabel);
+//        ts_adLabel->setFont(font);
+//        adHlayout->addWidget(ts_adLabel);
 
         horizontalLayout_3->addWidget(ts_showADWidget);
 

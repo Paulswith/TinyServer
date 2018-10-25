@@ -11,7 +11,9 @@ TSHelpTools::TSHelpTools()
 bool TSHelpTools::isInvalidJson(QString &checkContent, QString &analysJson)
 {
     QJsonParseError parseError;
-    QJsonDocument json = QJsonDocument::fromJson(checkContent.toLatin1(), &parseError);
+    // toUtf8 解决中文编码问题...
+    QJsonDocument json = QJsonDocument::fromJson(checkContent.toUtf8(), &parseError);
+
     if (parseError.error == QJsonParseError::NoError) {
         analysJson = QString(json.toJson(QJsonDocument::Compact)); // 格式化
         return false;
@@ -36,11 +38,15 @@ bool TSHelpTools::isValidJson(QByteArray checkContent, QJsonDocument *analysJson
 }
 
 
-QString TSHelpTools::filterJsonPre(QString jsonContent)
+QByteArray TSHelpTools::filterJsonPre(const QByteArray& jsonContent)
 {
-    if (jsonContent.isEmpty()) return QString();
-    QByteArray queryJson = jsonContent.toLatin1();
-    return QString(queryJson.replace(queryJson.size()-2, 2, "").replace(0, 6, ""));
+//    if (jsonContent.isEmpty()) return QString();
+//    if jsonContent
+//    QByteArray queryJson = jsonContent();)
+//    return QString(queryJson.replace(queryJson.size()-2, 2, "").replace(0, 6, ""));
+
+    auto queryJso = QString::fromUtf8(jsonContent);
+    return queryJso.replace(queryJso.size()-2, 2, "").replace(0, 6, "").toUtf8();
 }
 
 

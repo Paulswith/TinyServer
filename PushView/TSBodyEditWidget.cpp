@@ -132,7 +132,6 @@ void TSBodyEditWidget::showViewWindowWithData(const QStringList &data)
     ui->ts_commitBtn->setEnabled(false);
 }
 
-
 TSBodyEditWidget::~TSBodyEditWidget()
 {
     delete ui;

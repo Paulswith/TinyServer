@@ -8,7 +8,6 @@
 #include "Design_Forms/TSWindowDesign.hpp"
 #include "httplistener.h"
 
-
 class TSMainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -34,6 +33,10 @@ private:
     stefanfrings::HttpListener *serverListener;
     void startServerListen();
 
+
+
+private:
+    void initialTimer();
     // 状态色策略
     void startStatusColorShow();
     QStringList statuColorSheets = {"QLabel {background-color:rgb(154,255,154);}",
@@ -41,6 +44,8 @@ private:
                                     "QLabel {background-color:rgb(0,139,69);}"};
     quint8 cur_color_index = 0;
     QTimer *statusTimer;
+
+
 };
 
 #endif // TSMAINWINDOW_H

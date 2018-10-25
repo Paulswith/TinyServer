@@ -65,7 +65,7 @@ void TSBodiesTableView::contextMenuEvent(QContextMenuEvent *event)
 {
     // 鼠标右键列表增删按钮, 删除Double-ensure
     auto menu = new QMenu();
-    QAction *ViewAction = menu->addAction("View-Item");
+    QAction *ViewAction = menu->addAction("Edit-Item");
     if (isAddBodyWindowOpened) ViewAction->setEnabled(false);
     connect(ViewAction, &QAction::triggered, this, &TSBodiesTableView::viewBodyItem);
 
@@ -99,7 +99,8 @@ void TSBodiesTableView::showAddBodyWindow()
     if (isAddBodyWindowOpened) return; // 避免重复打开
     QRect w_rect = geometry();
     // x+w+50
-    QRect subRect(w_rect.x()+w_rect.width() + 50,w_rect.y(),400,600);
+
+    QRect subRect(w_rect.x()+(w_rect.width()*2), w_rect.y() + 300, 400, 600);
     bodyEditWidget = new TSBodyEditWidget(subRect);
     bodyEditWidget->show();
     isAddBodyWindowOpened = true;
@@ -111,7 +112,6 @@ void TSBodiesTableView::showAddBodyWindow()
     connect(bodyEditWidget, &TSBodyEditWidget::signal_addNewBody, [&](){
         reloadDataModel();
     });
-
 }
 
 void TSBodiesTableView::removeBodyItem()
