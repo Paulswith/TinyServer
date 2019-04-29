@@ -33,3 +33,7 @@ build-*/
 *.exe
 *.out
 *.app
+
+# mac directory file
+.DS_Store
+
