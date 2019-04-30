@@ -1,7 +1,8 @@
 #include "TSHelpTools.h"
 #include <QJsonParseError>
 #include <QDebug>
-#include "MainClass/Main/Model/TSGlobalAttribute.h"
+#include <QFileInfo>
+#include "MainClass/AppConfig/TSGlobalAttribute.h"
 
 
 TSHelpTools::TSHelpTools()
@@ -68,3 +69,8 @@ bodyStruct TSHelpTools::queryBodyWithPath(const QString &path)
     return GlobalStaticPro::bodyDataModel[path];
 }
 
+// path handle
+bool TSHelpTools::isPathExist(const QString& filePath)
+{
+    return  QFileInfo(filePath).exists() ? true : false;
+}

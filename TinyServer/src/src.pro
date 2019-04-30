@@ -26,29 +26,29 @@ SOURCES += \
     MainClass/Tools/TSSqlConnection.cpp \
     MainClass/Tools/TSHelpTools.cpp \
     MainClass/RespondEditor/View/TSBodyEditWidget.cpp \
-    MainClass/Main/Controller/TSServerController.cpp \
-    MainClass/Main/View/TSBodiesTableView.cpp \
-    MainClass/Main/View/TSConsole.cpp \
-    MainClass/Main/View/TSLCDClock.cpp \
-    MainClass/Main/View/TSMainWindow.cpp \
-    MainClass/Main/Model/TSBodiesModel.cpp \
-    MainClass/Main/Model/TSGlobalAttribute.cpp \
-    MainClass/Network/TSNetwork.cpp
+    MainClass/MainWindow/Controller/TSServerController.cpp \
+    MainClass/MainWindow/View/TSBodiesTableView.cpp \
+    MainClass/MainWindow/View/TSConsole.cpp \
+    MainClass/MainWindow/View/TSLCDClock.cpp \
+    MainClass/MainWindow/View/TSMainWindow.cpp \
+    MainClass/MainWindow/Model/TSBodiesModel.cpp \
+    MainClass/AppConfig/TSGlobalAttribute.cpp \
+    MainClass/Network/TSNetWork.cpp
 
 HEADERS += \
-    MainClass/Main/View/TSWindowDesign.hpp \
+    MainClass/MainWindow/View/TSWindowDesign.hpp \
     MainClass/Tools/TSSqlConnection.h \
-    MainClass/Tools/TSConfigUtil.h \
+    MainClass/Tools/TSConfigUtil.hpp \
     MainClass/Tools/TSHelpTools.h \
     MainClass/RespondEditor/View/TSBodyEditWidget.h \
-    MainClass/Main/Controller/TSServerController.h \
-    MainClass/Main/View/TSBodiesTableView.h \
-    MainClass/Main/View/TSConsole.h \
-    MainClass/Main/View/TSLCDClock.h \
-    MainClass/Main/View/TSMainWindow.h \
-    MainClass/Main/Model/TSBodiesModel.h \
-    MainClass/Main/Model/TSGlobalAttribute.h \
-    MainClass/Network/TSNetwork.h
+    MainClass/MainWindow/Controller/TSServerController.h \
+    MainClass/MainWindow/View/TSBodiesTableView.h \
+    MainClass/MainWindow/View/TSConsole.h \
+    MainClass/MainWindow/View/TSLCDClock.h \
+    MainClass/MainWindow/View/TSMainWindow.h \
+    MainClass/MainWindow/Model/TSBodiesModel.h \
+    MainClass/AppConfig/TSGlobalAttribute.h \
+    MainClass/Network/TSNetWork.h
 
 FORMS += \
     Resource/Form/TS_design.ui \

@@ -4,7 +4,7 @@
 
 #include "TSBodiesModel.h"
 #include "MainClass/Tools/TSSqlConnection.h"
-#include "MainClass/Main/Model/TSGlobalAttribute.h"
+#include "MainClass/AppConfig/TSGlobalAttribute.h"
 
 
 TSBodiesModel::TSBodiesModel(QObject *parent)

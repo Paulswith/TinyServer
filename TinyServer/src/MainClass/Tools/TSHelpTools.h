@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QJsonDocument>
-#include "MainClass/Main/Model/TSGlobalAttribute.h"
+#include "MainClass/AppConfig/TSGlobalAttribute.h"
 
 class TSHelpTools
 {
@@ -20,6 +20,9 @@ public:
     static bool isPathAlreadyExist(const QString &path);
 
     static bodyStruct queryBodyWithPath(const QString &path);
+
+    /*上面不属于工具类的得干掉了~ 很多是数据库之类的*/
+    static bool isPathExist(const QString& filePath);
 };
 
 #endif // TSHELPTOOLS_H

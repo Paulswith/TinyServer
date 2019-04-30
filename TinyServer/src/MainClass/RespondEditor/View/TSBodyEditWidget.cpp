@@ -1,7 +1,7 @@
 #include "TSBodyEditWidget.h"
 #include "MainClass/Tools/TSSqlConnection.h"
 #include "MainClass/Tools/TSHelpTools.h"
-#include "MainClass/Main/Model/TSGlobalAttribute.h"
+#include "MainClass/AppConfig/TSGlobalAttribute.h"
 
 #include <QDebug>
 #include <QShowEvent>

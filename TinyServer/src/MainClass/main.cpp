@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QDebug>
 
-#include "MainClass/Main/View/TSMainWindow.h"
+#include "MainClass/MainWindow/View/TSMainWindow.h"
 
 
 int main(int argc, char *argv[])

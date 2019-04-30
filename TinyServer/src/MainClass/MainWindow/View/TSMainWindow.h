@@ -7,7 +7,10 @@
 #include "TSConsole.h"
 #include "TSWindowDesign.hpp"
 #include "httplistener.h"
+#include "MainClass/Network/TSNetWork.h"
+#include "MainClass/AppConfig/TSGlobalAttribute.h"
 
+using AppConfigs::PrintType;
 class TSMainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -17,25 +20,34 @@ public:
     ~TSMainWindow();
 
 signals:
-    void signal_printToConsole(QString str); // 输出到控制台
+    void signalWithPrintToConsole(QString str, PrintType printTyle = printStdout); // 输出到控制台
 
-private:
-    Ui::TSMainWindow *ui;
-    // 事件处理:
+private: /* events */
     void showEvent(QShowEvent *event);
     void closeEvent(QCloseEvent *event);
-    // 当前服务器是否开启
-    stefanfrings::HttpListener *serverListener;
-    void startServerListen();
-private:
+
+private: /* properties */
+    QTimer *statusTimer = nullptr;
+    Ui::TSMainWindow *ui;
+    TSNetWork *network = nullptr;
+    //  timer color at current idnex flag
+    quint16 timerCurrentIndex = 0;
+
+private: /* ui-handle */
+    void setupWidget();
     void initialTimer();
-    // 状态色策略
     void startStatusColorShow();
     QStringList statuColorSheets = {"QLabel {background-color:rgb(154,255,154);}",
                                     "QLabel {background-color:rgb(0,205,0);}",
                                     "QLabel {background-color:rgb(0,139,69);}"};
-    quint8 cur_color_index = 0;
-    QTimer *statusTimer;
+
+private: /* custom-methods */
+    /* signal handling */
+    void connectAllSignals();
+    /* server handling */
+    void startServerListen();
+    void suspendServerListen();
+    /* color shining with timer */
 };
 
 #endif // TSMAINWINDOW_H

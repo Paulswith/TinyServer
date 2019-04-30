@@ -5,5 +5,5 @@
 QMap<QString, bodyStruct> GlobalStaticPro::bodyDataModel = {};
 int GlobalStaticPro::serverPort = 8081;
 
-TSGlobalAttribute::TSGlobalAttribute(){}
-
+//
+const QString AppConfigs::kIniConfigGroupName = "listener";

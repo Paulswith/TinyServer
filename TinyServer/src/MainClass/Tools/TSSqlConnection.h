@@ -5,7 +5,7 @@
 #include <QtSql/QSqlError>
 #include <QScopedPointer>
 #include <QStandardItem>
-#include "MainClass/Main/Model/TSGlobalAttribute.h"
+#include "MainClass/AppConfig/TSGlobalAttribute.h"
 
 // 建表脚本： create table body_interaction(path TEXT not null, method TEXT,  reqjson JSON, rspJson JSON);
 class TSSqlConnection

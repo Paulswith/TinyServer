@@ -22,11 +22,18 @@ namespace GlobalStaticPro {
     extern int serverPort;
 }
 
+namespace AppConfigs {
+    extern const QString kIniConfigGroupName; // ini配置组名
 
-class TSGlobalAttribute
-{
-public:
-    TSGlobalAttribute();
-};
+    // 控制台颜色
+    enum PrintType {
+        printStdsuc, // 成功
+        printStderr, // 失败
+        printStdout,  // 标准、普通
+        printShine  //
+    };
+}    
+
+
 
 #endif // TSGLOBALATTRIBUTE_H

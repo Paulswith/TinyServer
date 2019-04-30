@@ -9,7 +9,7 @@
 
 #include "MainClass/Tools/TSSqlConnection.h"
 #include "TSBodiesTableView.h"
-#include "MainClass/Main/Model/TSBodiesModel.h"
+#include "MainClass/MainWindow/Model/TSBodiesModel.h"
 
 
 TSBodiesTableView::TSBodiesTableView(QWidget *parent)

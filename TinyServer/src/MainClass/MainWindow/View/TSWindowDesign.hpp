@@ -20,9 +20,9 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
-#include "MainClass/Main/View/TSConsole.h"
-#include "MainClass/Main/View/TSBodiesTableView.h"
-#include "MainClass/Main/View/TSLCDClock.h"
+#include "MainClass/MainWindow/View/TSConsole.h"
+#include "MainClass/MainWindow/View/TSBodiesTableView.h"
+#include "MainClass/MainWindow/View/TSLCDClock.h"
 
 QT_BEGIN_NAMESPACE
 

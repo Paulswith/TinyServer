@@ -1,9 +1,9 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include "MainClass/Tools/TSSqlConnection.h"
-#include "MainClass/Tools/TSConfigUtil.h"
+#include "MainClass/Tools/TSConfigUtil.hpp"
 #include "MainClass/Tools/TSHelpTools.h"
-#include "MainClass/Main/Model/TSGlobalAttribute.h"
+#include "MainClass/AppConfig/TSGlobalAttribute.h"
 
 
 QString const DB_TYPE = "QSQLITE";

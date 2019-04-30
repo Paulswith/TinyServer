@@ -3,14 +3,16 @@
 #include <QFile>
 #include <QTextStream>
 #include "TSServerController.h"
-#include "MainClass/Main/Model/TSGlobalAttribute.h"
+#include "MainClass/AppConfig/TSGlobalAttribute.h"
 #include "MainClass/Tools/TSHelpTools.h"
 #include "MainClass/Tools/TSSqlConnection.h"
 
 
 TSServerController::TSServerController(QObject *parent)
-    :HttpRequestHandler(parent)
-{}
+    : HttpRequestHandler(parent)
+{
+
+}
 
 
 QByteArray TSServerController::readFileWithPath(const QString& path) {
@@ -31,21 +33,21 @@ QByteArray TSServerController::readFileWithPath(const QString& path) {
 void TSServerController::service(HttpRequest &request, HttpResponse &response)
 {
 
-    emit signal_connectionInfoToConsole("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-    emit signal_connectionInfoToConsole(QString("+new request:[%1] -> \n%2").
+    signalWithPrintToConsole("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
+    signalWithPrintToConsole(QString("+new request:[%1] -> \n%2").
                                         arg(QString(request.getPath())).arg(QString(request.getBody())));
 
     if (!TSHelpTools::isPathAlreadyExist(request.getPath())) {
         response.setStatus(404, "Not found");
         response.write("The URL is wrong, no such path.", true);
-        emit signal_connectionInfoToConsole("-Check failure:[404] -> The URL is wrong, no such path.");
+        signalWithPrintToConsole("-Check failure:[404] -> The URL is wrong, no such path.", PrintType::printStderr);
         return;
     }
 
     if (request.getMethod() != "POST") {
         response.setStatus(405, "Method Not Allowed");
         response.write("Only support POST Method.", true);
-        emit signal_connectionInfoToConsole("-Check failure:[405] -> Only support POST Method.");
+        signalWithPrintToConsole("-Check failure:[405] -> Only support POST Method.", PrintType::printStderr);
         return;
     }
 
@@ -55,7 +57,7 @@ void TSServerController::service(HttpRequest &request, HttpResponse &response)
     if (!suc) {
         response.setStatus(400, "Bad Request");
         response.write("Request-body unidentifiable", true);
-        emit signal_connectionInfoToConsole("-Check failure:[400] -> Request-body unidentifiable.");
+        signalWithPrintToConsole("-Check failure:[400] -> Request-body unidentifiable.", PrintType::printStderr);
         return;
     };
 
@@ -65,12 +67,13 @@ void TSServerController::service(HttpRequest &request, HttpResponse &response)
     if (!isRequestEqual){
         response.setStatus(400, "Bad Request");
         response.write("Request body mismatch;", true);
-        emit signal_connectionInfoToConsole("-Check failure:[400] -> Request body mismatch");
+        signalWithPrintToConsole("-Check failure:[400] -> Request body mismatch", PrintType::printStderr);
         return;
     }
     QByteArray retContent = hanlderBody.rspJson.toJson(QJsonDocument::Indented);
-    emit signal_connectionInfoToConsole(QString("#Check succeed:[%1] -> \n%2").
+    signalWithPrintToConsole(QString("#Check succeed:[%1] -> \n%2").
                                         arg(response.getStatusCode()).
-                                        arg(QString(retContent)));
+                                        arg(QString(retContent)),
+                             PrintType::printStdsuc);
     response.write(retContent, true);
 }
